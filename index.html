@@ -492,12 +492,23 @@
     ============================================================ */
     .info-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1.2fr;
       border-top: 1px solid var(--hairline);
     }
     .info-col { padding: var(--s64) 0; }
     .info-col:first-child { padding-right: var(--s80); border-right: 1px solid var(--hairline); }
-    .info-col:last-child  { padding-left:  var(--s80); }
+    .info-col:nth-child(2) { padding-left: var(--s80); border-right: 1px solid var(--hairline); padding-right: var(--s40); }
+    .info-col:last-child   { padding-left: var(--s40); }
+
+    .info-col--map { padding: 0; overflow: hidden; }
+    .info-col--map iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      border: 0;
+      display: block;
+      filter: grayscale(1) contrast(1.05);
+    }
     .info-label {
       font-size: var(--t-caption);
       letter-spacing: 0.2em;
@@ -658,7 +669,9 @@
 
       .info-grid { grid-template-columns: 1fr; }
       .info-col:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--hairline); padding-bottom: var(--s48); }
-      .info-col:last-child { padding-left: 0; padding-top: var(--s48); }
+      .info-col:nth-child(2) { padding-left: 0; padding-right: 0; border-right: none; border-bottom: 1px solid var(--hairline); padding-bottom: var(--s48); }
+      .info-col:last-child { padding-left: 0; padding-top: 0; }
+      .info-col--map iframe { min-height: 280px; }
 
       .footer { grid-template-columns: 1fr; text-align: center; }
       .footer-copy { text-align: center; }
@@ -692,8 +705,9 @@
 
       /* Info columns: tighten padding */
       .info-col { padding: var(--s40) 0; }
-      .info-col:first-child { padding-bottom: var(--s32); }
-      .info-col:last-child  { padding-top:  var(--s32); }
+      .info-col:first-child  { padding-bottom: var(--s32); }
+      .info-col:nth-child(2) { padding-bottom: var(--s32); }
+      .info-col--map { padding: 0; }
 
       /* Section bottom breathing room */
       .section { padding-bottom: 80px; }
@@ -1104,7 +1118,7 @@
         </div>
       </div>
 
-      <div class="info-col">
+      <div class="info-col info-col--contact">
         <div class="info-label">Dónde estamos</div>
         <a
           href="https://share.google/6tSTJGZo5cR8UOMvf"
@@ -1140,6 +1154,16 @@
             </span>
           </div>
         </div>
+      </div>
+
+      <div class="info-col info-col--map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6063.949386671603!2d-3.6332860238589633!3d40.54214824799619!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422dd4637e250d%3A0x2cf62e2df3f9a51b!2sFresh%20barber%20shop%20Madrid%20Barber%C3%ADa%26peluqueria%20masculina!5e0!3m2!1ses!2ses!4v1787755596528!5m2!1ses!2ses"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Fresh Barbershop en Google Maps"
+        ></iframe>
       </div>
 
     </div>
