@@ -1,0 +1,330 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout>
+
+  <!-- HERO ================================================= -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img
+        src="/hero-dani.jpeg"
+        alt="Fresh Barbershop Madrid"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Alcobendas · Madrid</p>
+
+      <img
+        class="hero-logo-mark"
+        src="/logo-fresh-barbershop.png"
+        alt="Fresh Barbershop"
+      />
+
+      <div class="hero-bottom">
+        <p class="hero-desc">
+          Tu barbería en Alcobendas.<br />
+          Degradados, cortes y barba hechos<br />con tiempo, con criterio y con ganas.
+        </p>
+        <div class="hero-cta-wrap">
+          <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--white btn-ghost--lg">
+            Pedir cita →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span class="hero-scroll-label">Scroll</span>
+    </div>
+  </section>
+
+
+  <!-- SERVICES ============================================= -->
+  <section class="section">
+    <div class="wordmark reveal">Servicios</div>
+
+    <!-- CORTE + BARBA -->
+    <div class="services-block reveal-group">
+      <div class="services-block-header">
+        <span class="services-block-label">Corte</span>
+        <span class="services-block-label">Barba</span>
+      </div>
+      <div class="services-cols">
+        <div class="services-col">
+          <div class="service-row">
+            <div>
+              <div class="service-name">Corte clásico</div>
+              <div class="service-note">30 min · tijera o máquina</div>
+            </div>
+            <div class="service-price">13 €</div>
+          </div>
+          <div class="service-row">
+            <div>
+              <div class="service-name">Corte degradado</div>
+              <div class="service-note">40 min · low, mid, high o skin fade</div>
+            </div>
+            <div class="service-price">13 €</div>
+          </div>
+          <div class="service-row service-row--last">
+            <div>
+              <div class="service-name">Corte &amp; Barba</div>
+              <div class="service-note">1 h · los dos, bien hechos</div>
+            </div>
+            <div class="service-price">18 €</div>
+          </div>
+        </div>
+
+        <div class="services-divider"></div>
+
+        <div class="services-col">
+          <div class="service-row">
+            <div>
+              <div class="service-name">Barba clásica</div>
+              <div class="service-note">15 min · diseño, perfilado y navaja</div>
+            </div>
+            <div class="service-price">9 €</div>
+          </div>
+          <div class="service-row service-row--last">
+            <div>
+              <div class="service-name">Barba express</div>
+              <div class="service-note">5 min · arreglo rápido</div>
+            </div>
+            <div class="service-price">4 €</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OTROS SERVICIOS -->
+    <div class="services-block services-block--secondary reveal-group">
+      <div class="services-block-header">
+        <span class="services-block-label">Más servicios</span>
+      </div>
+      <div class="services-grid">
+        <div class="service-row">
+          <div>
+            <div class="service-name">Depilación cejas con cera</div>
+            <div class="service-note">15 min</div>
+          </div>
+          <div class="service-price">8 €</div>
+        </div>
+        <div class="service-row">
+          <div>
+            <div class="service-name">Depilación orejas y nariz</div>
+            <div class="service-note">15 min</div>
+          </div>
+          <div class="service-price">10 €</div>
+        </div>
+        <div class="service-row service-row--last">
+          <div>
+            <div class="service-name">Perfilado de cejas</div>
+            <div class="service-note">5 min</div>
+          </div>
+          <div class="service-price">2 €</div>
+        </div>
+        <div class="service-row service-row--last">
+          <div>
+            <div class="service-name">Lavado</div>
+            <div class="service-note">5 min</div>
+          </div>
+          <div class="service-price">2 €</div>
+        </div>
+        <div class="service-row service-row--last">
+          <div>
+            <div class="service-name">Ondulación permanente</div>
+            <div class="service-note">2 h 30 min · precio según consulta</div>
+          </div>
+          <div class="service-price">Consultar</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TEAM PHOTO =========================================== -->
+  <div class="photo-full photo-full--tall reveal">
+    <img
+      src="/team-photo.jpeg"
+      alt="El equipo de Fresh Barbershop Alcobendas"
+      style="object-position: center 30%; filter: brightness(0.6) contrast(1.05);"
+    />
+    <div class="photo-overlay">
+      <div class="photo-label">El equipo · Alcobendas, Madrid</div>
+      <div class="photo-title">Cuando entras,<br />ya eres de los nuestros.</div>
+    </div>
+  </div>
+
+
+  <!-- NOSOTROS ============================================= -->
+  <section class="section section--dark">
+    <div class="wordmark reveal">Nosotros</div>
+    <div class="hairline"></div>
+
+    <div class="about-layout reveal-group">
+      <div class="about-text">
+        <p>
+          Fresh Barbershop es la barbería que Simón quiso tener antes de poder crearla. Un sitio donde no tienes que explicar cien veces lo que quieres, donde saben lo que hacen y se nota, y donde salir bien cortado es la norma, no la excepción.
+        </p>
+        <p>
+          Estamos en Alcobendas porque aquí es donde vivimos y donde queremos estar. <strong>Conocemos a nuestra gente, y nuestra gente nos conoce a nosotros.</strong>
+        </p>
+        <p>
+          Si vienes una vez, vuelves. Eso es lo único que te prometemos.
+        </p>
+      </div>
+
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <div class="pillar-title">Sin prisa</div>
+          <div class="pillar-desc">Nos tomamos el tiempo que hace falta. Cada degradado tiene su proceso y no lo cortamos.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <div class="pillar-title">Criterio</div>
+          <div class="pillar-desc">Escuchamos lo que quieres y aportamos lo que sabemos. El resultado es lo mejor de los dos.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <div class="pillar-title">Tu sitio</div>
+          <div class="pillar-desc">Llevamos años en Alcobendas. No somos una franquicia ni un pop-up. Estamos aquí.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- GALLERY ============================================== -->
+  <div class="gallery-grid reveal">
+    <div class="gallery-cell gallery-cell--main">
+      <img src="/hero-dani.jpeg" alt="Barbero Fresh Barbershop" style="object-position: center 12%;" />
+      <div class="gallery-cell-label">Nuestro trabajo</div>
+    </div>
+    <div class="gallery-cell">
+      <img src="/barber-work.jpeg" alt="Corte en Fresh Barbershop" style="object-position: center center; filter: brightness(0.85);" />
+      <div class="gallery-cell-label">En el sillón</div>
+    </div>
+    <div class="gallery-cell">
+      <img src="/interior.webp" alt="Interior Fresh Barbershop Alcobendas" style="object-position: center 35%; filter: brightness(0.82);" />
+      <div class="gallery-cell-label">La casa</div>
+    </div>
+  </div>
+
+
+  <!-- BLOG ================================================= -->
+  <section class="section">
+    <div class="wordmark reveal">Blog</div>
+    <div class="reveal" style="font-size: var(--t-sm); color: var(--mid); margin-top: var(--s16); margin-bottom: var(--s48); max-width: 480px; line-height: 1.6;">
+      Lo que sabemos, lo compartimos. Guías de barbería escritas desde la silla, no desde un blog de contenido genérico.
+    </div>
+
+    <div class="blog-list reveal-group">
+      {posts.map((post, i) => (
+        <a class="blog-item" href={`/blog/${post.slug}`}>
+          <div class="blog-num">{String(i + 1).padStart(2, '0')}</div>
+          <div class="blog-body">
+            <div class="blog-category">{post.data.category}</div>
+            <div class="blog-title">{post.data.title}</div>
+            <div class="blog-excerpt">{post.data.excerpt}</div>
+          </div>
+          <div class="blog-meta">
+            <span class="blog-date">
+              {post.data.date.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}
+            </span>
+            <span class="blog-arrow">→</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+
+  <!-- CONTACTO ============================================= -->
+  <section class="section section--paper">
+    <div class="wordmark reveal">Contacto</div>
+    <div class="info-grid">
+
+      <div class="info-col">
+        <div class="info-label">Cuándo venimos</div>
+        <div class="hour-row">
+          <span class="hour-day">Lunes – Sábado</span>
+          <span class="hour-time">10:00 – 20:30</span>
+        </div>
+        <div class="hour-row">
+          <span class="hour-day">Domingo</span>
+          <span class="hour-time hour-time--closed">Cerrado</span>
+        </div>
+        <div style="margin-top: var(--s40);">
+          <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--dark" style="padding: 12px 24px; font-size: var(--t-sm);">
+            Reservar en Booksy →
+          </a>
+        </div>
+      </div>
+
+      <div class="info-col info-col--contact">
+        <div class="info-label">Dónde estamos</div>
+        <a href="https://share.google/6tSTJGZo5cR8UOMvf" target="_blank" rel="noopener" class="contact-address" style="display:block; text-decoration:none;">
+          C. de la Marquesa<br />Viuda de Aldama, 40<br />28100 Alcobendas, Madrid ↗
+        </a>
+        <div class="contact-rows">
+          <div class="contact-row">
+            <span class="contact-row-label">Teléfono</span>
+            <span class="contact-row-value"><a href="tel:+34642701740">642 70 17 40</a></span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-row-label">Instagram</span>
+            <span class="contact-row-value">
+              <a href="https://www.instagram.com/freshbarbershop_mad/" target="_blank" rel="noopener">@freshbarbershop_mad</a>
+            </span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-row-label">Simón</span>
+            <span class="contact-row-value">
+              <a href="https://www.instagram.com/saimonguedez_19" target="_blank" rel="noopener">@saimonguedez_19</a>
+            </span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-row-label">Reservas</span>
+            <span class="contact-row-value">
+              <a href={BOOKSY} target="_blank" rel="noopener">Booksy</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-col info-col--map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6063.949386671603!2d-3.6332860238589633!3d40.54214824799619!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422dd4637e250d%3A0x2cf62e2df3f9a51b!2sFresh%20barber%20shop%20Madrid%20Barber%C3%ADa%26peluqueria%20masculina!5e0!3m2!1ses!2ses!4v1787755596528!5m2!1ses!2ses"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Fresh Barbershop en Google Maps"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- BOOKING CTA ========================================== -->
+  <div class="booking">
+    <div class="booking-eyebrow reveal">Ya sabes que toca</div>
+    <div class="booking-title reveal">Pide<br />tu cita</div>
+    <div class="booking-sub reveal">Alcobendas · Madrid · 642 70 17 40</div>
+    <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--white btn-ghost--lg">
+      Pedir cita en Booksy →
+    </a>
+  </div>
+
+</Layout>
