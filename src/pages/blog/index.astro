@@ -1,0 +1,61 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
+---
+
+<Layout
+  title="Blog — Fresh Barbershop Alcobendas"
+  description="Guías de barbería escritas desde la silla: fades, productos, mantenimiento y tendencias. Por el equipo de Fresh Barbershop en Alcobendas, Madrid."
+>
+
+  <!-- BLOG HERO ============================================ -->
+  <div style="padding-top: var(--nav-h); background: var(--ink);">
+    <div style="padding: var(--s80) var(--gutter) var(--s64);">
+      <p style="font-size: var(--t-caption); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: var(--s24);">
+        Fresh Barbershop · Alcobendas
+      </p>
+      <h1 class="wordmark" style="color: var(--white); margin-bottom: var(--s24);">Blog</h1>
+      <p style="font-size: var(--t-sub); color: rgba(255,255,255,0.5); max-width: 520px; line-height: 1.6;">
+        Lo que sabemos, lo compartimos. Guías escritas desde la silla, no desde un blog de contenido genérico.
+      </p>
+    </div>
+  </div>
+
+  <!-- POSTS LIST =========================================== -->
+  <section class="section">
+    <div class="blog-list">
+      {posts.map((post, i) => (
+        <a class="blog-item" href={`/blog/${post.slug}`}>
+          <div class="blog-num">{String(i + 1).padStart(2, '0')}</div>
+          <div class="blog-body">
+            <div class="blog-category">{post.data.category}</div>
+            <div class="blog-title">{post.data.title}</div>
+            <div class="blog-excerpt">{post.data.excerpt}</div>
+          </div>
+          <div class="blog-meta">
+            <span class="blog-date">
+              {post.data.date.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}
+            </span>
+            <span class="blog-arrow">→</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- BOOKING CTA ========================================== -->
+  <div class="booking">
+    <div class="booking-eyebrow">Ya sabes que toca</div>
+    <div class="booking-title">Pide<br />tu cita</div>
+    <div class="booking-sub">Alcobendas · Madrid · 642 70 17 40</div>
+    <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--white btn-ghost--lg">
+      Reservar en Booksy →
+    </a>
+  </div>
+
+</Layout>

@@ -1,0 +1,26 @@
+backend:
+  name: github
+  repo: robertosaenzmol-beep/Fresh-Barbershop
+  branch: main
+  base_url: https://freshbarbershop.vercel.app  # cambia a tu dominio real si tienes uno
+
+media_folder: public/images/blog
+public_folder: /images/blog
+
+locale: es
+
+collections:
+  - name: blog
+    label: Blog
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: "Título", name: title, widget: string }
+      - { label: "Fecha", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Categoría", name: category, widget: select, options: ["Estilos de corte", "Productos", "Mantenimiento", "Tendencias", "Barbería"] }
+      - { label: "Extracto", name: excerpt, widget: text, hint: "Resumen breve que aparece en la lista del blog (1-2 frases)." }
+      - { label: "Imagen de portada", name: coverImage, widget: image, required: false, hint: "Opcional. Se muestra debajo del título del post." }
+      - { label: "Contenido", name: body, widget: markdown }
