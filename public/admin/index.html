@@ -4,10 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CMS — Fresh Barbershop</title>
-  <!-- Ruta explícita al config para que Decap no falle en rutas con o sin trailing slash -->
-  <link rel="cms-config-url" type="text/css" href="/admin/config.yml" />
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    CMS.init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: 'robertosaenzmol-beep/Fresh-Barbershop',
+          branch: 'main',
+        },
+        media_folder: 'public/images/blog',
+        public_folder: '/images/blog',
+        locale: 'es',
+        collections: [
+          {
+            name: 'blog',
+            label: 'Blog',
+            folder: 'src/content/blog',
+            create: true,
+            slug: '{{slug}}',
+            extension: 'md',
+            format: 'frontmatter',
+            fields: [
+              { label: 'Título',          name: 'title',      widget: 'string' },
+              { label: 'Fecha',           name: 'date',       widget: 'datetime', format: 'YYYY-MM-DD', date_format: 'DD/MM/YYYY', time_format: false },
+              { label: 'Categoría',       name: 'category',   widget: 'select',   options: ['Estilos de corte', 'Productos', 'Mantenimiento', 'Tendencias', 'Barbería'] },
+              { label: 'Extracto',        name: 'excerpt',    widget: 'text',     hint: 'Resumen breve que aparece en la lista del blog (1-2 frases).' },
+              { label: 'Imagen portada',  name: 'coverImage', widget: 'image',    required: false },
+              { label: 'Contenido',       name: 'body',       widget: 'markdown' },
+            ],
+          },
+        ],
+      },
+    });
+  </script>
 </body>
 </html>
