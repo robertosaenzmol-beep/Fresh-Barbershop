@@ -733,6 +733,11 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 768px) {
+  /* Wordmark: explicit bottom gap so display font metrics never bleed into next element */
+  .wordmark { margin-bottom: 56px; }
+  /* Services col label: top breathing room when shown on mobile */
+  .services-col-label { margin-top: 4px; }
+
   /* Hero */
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: var(--s24); }
   .hero-desc { max-width: 100%; }
@@ -802,7 +807,7 @@ a { text-decoration: none; color: inherit; }
   }
 
   /* Typography scale-down */
-  .wordmark        { font-size: clamp(26px, 8.5vw, 130px); }
+  .wordmark        { font-size: clamp(26px, 8.5vw, 130px); margin-bottom: 44px; }
   .booking-title   { font-size: clamp(32px, 8.5vw, 128px); }
   .pillar-title    { font-size: clamp(24px, 7vw, 60px); }
   .photo-title     { font-size: clamp(20px, 5.5vw, 66px); }
