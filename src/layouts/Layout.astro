@@ -49,11 +49,29 @@ const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberi
       <a href="https://www.instagram.com/saimonguedez_19" class="footer-link" target="_blank" rel="noopener">Simón</a>
       <a href="tel:+34642701740" class="footer-link">642 70 17 40</a>
     </div>
+    <div class="footer-legal">
+      <a href="/aviso-legal" class="footer-link footer-link--legal">Aviso legal</a>
+      <a href="/politica-de-privacidad" class="footer-link footer-link--legal">Privacidad</a>
+      <a href="/politica-de-cookies" class="footer-link footer-link--legal">Cookies</a>
+    </div>
     <span class="footer-copy">© 2026</span>
   </footer>
 
+  <!-- COOKIE BANNER ======================================== -->
+  <div class="cookie-banner" id="cookie-banner" hidden role="dialog" aria-label="Aviso de cookies">
+    <p class="cookie-text">
+      Usamos cookies propias y de terceros (Google Analytics) para mejorar tu experiencia y analizar el tráfico de la web.
+      <a href="/politica-de-cookies" class="cookie-link">Más información</a>
+    </p>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-btn--reject" id="cookie-reject">Rechazar no esenciales</button>
+      <button class="cookie-btn cookie-btn--accept" id="cookie-accept">Aceptar todas</button>
+    </div>
+  </div>
+
   <script>
     (function () {
+      /* ── Scroll reveal ── */
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -65,6 +83,40 @@ const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberi
 
       document.querySelectorAll('.reveal, .reveal-group').forEach((el) => {
         io.observe(el);
+      });
+
+      /* ── Cookie banner ── */
+      const GA_ID = 'G-XXXXXXXXXX';
+      const STORAGE_KEY = 'cookies_accepted';
+
+      function loadGA() {
+        const s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        s.async = true;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+
+      const stored = localStorage.getItem(STORAGE_KEY);
+
+      if (stored === null) {
+        document.getElementById('cookie-banner').removeAttribute('hidden');
+      } else if (stored === 'true') {
+        loadGA();
+      }
+
+      document.getElementById('cookie-accept').addEventListener('click', function () {
+        localStorage.setItem(STORAGE_KEY, 'true');
+        document.getElementById('cookie-banner').setAttribute('hidden', '');
+        loadGA();
+      });
+
+      document.getElementById('cookie-reject').addEventListener('click', function () {
+        localStorage.setItem(STORAGE_KEY, 'false');
+        document.getElementById('cookie-banner').setAttribute('hidden', '');
       });
     }());
   </script>
