@@ -65,37 +65,61 @@ const reviews = [
     <div class="hairline"></div>
 
     <div class="about-layout reveal-group">
-      <div class="about-text">
-        <p>
-          Fresh Barbershop es la barbería que Simón quiso tener antes de poder crearla. Un sitio donde no tienes que explicar cien veces lo que quieres, donde saben lo que hacen y se nota, y donde salir bien cortado es la norma, no la excepción.
-        </p>
-        <p>
-          Estamos en Alcobendas porque aquí es donde vivimos y donde queremos estar. <strong>Conocemos a nuestra gente, y nuestra gente nos conoce a nosotros.</strong>
-        </p>
-        <p>
-          Si vienes una vez, vuelves. Eso es lo único que te prometemos.
-        </p>
+      <!-- 3D Scissors -->
+      <div class="about-model">
+        <model-viewer
+          src="/images/animacionTijera.glb"
+          alt="Tijeras de barbería 3D"
+          auto-rotate
+          auto-rotate-delay="0"
+          rotation-per-second="20deg"
+          camera-controls
+          touch-action="pan-y"
+          interaction-prompt="none"
+          shadow-intensity="0"
+          exposure="1.2"
+          environment-image="neutral"
+          style="width:100%;height:100%;background:transparent;"
+        ></model-viewer>
+        <p class="model-hint">Arrastra para rotar · Pellizca para hacer zoom</p>
       </div>
 
-      <div class="about-pillars">
-        <div class="pillar">
-          <div class="pillar-num">01</div>
-          <div class="pillar-title">Sin prisa</div>
-          <div class="pillar-desc">Nos tomamos el tiempo que hace falta. Cada degradado tiene su proceso y no lo cortamos.</div>
+      <!-- Text + pillars -->
+      <div class="about-right">
+        <div class="about-text">
+          <p>
+            Fresh Barbershop es la barbería que Simón quiso tener antes de poder crearla. Un sitio donde no tienes que explicar cien veces lo que quieres, donde saben lo que hacen y se nota, y donde salir bien cortado es la norma, no la excepción.
+          </p>
+          <p>
+            Estamos en Alcobendas porque aquí es donde vivimos y donde queremos estar. <strong>Conocemos a nuestra gente, y nuestra gente nos conoce a nosotros.</strong>
+          </p>
+          <p>
+            Si vienes una vez, vuelves. Eso es lo único que te prometemos.
+          </p>
         </div>
-        <div class="pillar">
-          <div class="pillar-num">02</div>
-          <div class="pillar-title">Criterio</div>
-          <div class="pillar-desc">Escuchamos lo que quieres y aportamos lo que sabemos. El resultado es lo mejor de los dos.</div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-num">03</div>
-          <div class="pillar-title">Tu sitio</div>
-          <div class="pillar-desc">Llevamos años en Alcobendas. No somos una franquicia ni un pop-up. Estamos aquí.</div>
+
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-num">01</div>
+            <div class="pillar-title">Sin prisa</div>
+            <div class="pillar-desc">Nos tomamos el tiempo que hace falta. Cada degradado tiene su proceso y no lo cortamos.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">02</div>
+            <div class="pillar-title">Criterio</div>
+            <div class="pillar-desc">Escuchamos lo que quieres y aportamos lo que sabemos. El resultado es lo mejor de los dos.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">03</div>
+            <div class="pillar-title">Tu sitio</div>
+            <div class="pillar-desc">Llevamos años en Alcobendas. No somos una franquicia ni un pop-up. Estamos aquí.</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <script is:inline src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" type="module"></script>
 
 
   <!-- GALLERY ============================================== -->
