@@ -381,7 +381,7 @@ a { text-decoration: none; color: inherit; }
   font-size: var(--t-sub);
   font-weight: 400;
   line-height: 1.7;
-  color: rgba(255,255,255,0.62);
+  color: rgba(255,255,255,0.78);
 }
 .about-text strong { color: var(--white); font-weight: 600; }
 .about-text p + p { margin-top: var(--s32); }
@@ -394,7 +394,7 @@ a { text-decoration: none; color: inherit; }
 .pillar-num {
   font-size: var(--t-caption);
   letter-spacing: 0.18em;
-  color: rgba(255,255,255,0.28);
+  color: rgba(255,255,255,0.5);
   margin-bottom: var(--s16);
 }
 .pillar-title {
@@ -410,7 +410,7 @@ a { text-decoration: none; color: inherit; }
 }
 .pillar-desc {
   font-size: var(--t-sm);
-  color: rgba(255,255,255,0.38);
+  color: rgba(255,255,255,0.62);
   line-height: 1.6;
 }
 
@@ -718,7 +718,7 @@ a { text-decoration: none; color: inherit; }
   font-size: var(--t-caption);
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
+  color: rgba(255,255,255,0.55);
 }
 .booking-title {
   font-family: var(--font-display);
@@ -732,7 +732,7 @@ a { text-decoration: none; color: inherit; }
 }
 .booking-sub {
   font-size: var(--t-sm);
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.6);
   letter-spacing: 0.05em;
 }
 
@@ -752,7 +752,7 @@ a { text-decoration: none; color: inherit; }
   font-size: var(--t-caption);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.55);
 }
 .footer-links {
   display: flex;
@@ -763,7 +763,7 @@ a { text-decoration: none; color: inherit; }
   font-size: var(--t-caption);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.6);
   transition: color 0.18s;
 }
 .footer-link:hover { color: var(--white); }
@@ -777,14 +777,14 @@ a { text-decoration: none; color: inherit; }
 }
 .footer-link--legal {
   font-size: 10px;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.45);
 }
-.footer-link--legal:hover { color: rgba(255,255,255,0.5); }
+.footer-link--legal:hover { color: rgba(255,255,255,0.8); }
 .cookie-link { color: rgba(255,255,255,0.5); text-decoration: underline; }
 .cookie-link:hover { color: var(--white); }
 .footer-copy {
   font-size: var(--t-caption);
-  color: rgba(255,255,255,0.16);
+  color: rgba(255,255,255,0.4);
   text-align: right;
 }
 
