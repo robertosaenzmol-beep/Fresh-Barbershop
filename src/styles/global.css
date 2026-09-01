@@ -221,6 +221,7 @@ a { text-decoration: none; color: inherit; }
 .section--dark  { background-color: var(--ink); background-image: url('/fondoFresh.png'); background-repeat: repeat; background-size: 320px auto; color: var(--white); }
 .section--black { background: var(--black); color: var(--white); }
 .section--paper { background: var(--paper); }
+.section--flush-bottom { padding-bottom: 0; }
 
 .wordmark {
   font-family: var(--font-display);

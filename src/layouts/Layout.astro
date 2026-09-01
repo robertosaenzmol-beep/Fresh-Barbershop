@@ -4,14 +4,64 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
+  canonical?: string;
 }
 
 const {
-  title = 'Fresh Barbershop — Alcobendas, Madrid',
-  description = 'Barbería de precisión en Alcobendas, Madrid. Cortes, degradados y arreglo de barba. Reserva en Booksy o llama al 642 70 17 40.',
+  title = 'Fresh Barbershop — Barbería en Alcobendas, Madrid',
+  description = 'Barbería en Alcobendas, Madrid. Cortes, degradados, fade y arreglo de barba. Profesionales con criterio. Reserva en Booksy o llama al 642 70 17 40.',
+  ogImage = '/hero-dani.jpeg',
+  canonical,
 } = Astro.props;
 
 const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
+const SITE = 'https://fresh-barbershop.vercel.app';
+const canonicalURL = canonical ? `${SITE}${canonical}` : `${SITE}${Astro.url.pathname}`;
+const ogImageURL = `${SITE}${ogImage}`;
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HairSalon',
+  name: 'Fresh Barbershop',
+  alternateName: 'Fresh Barber Shop Madrid',
+  description: 'Barbería en Alcobendas, Madrid. Cortes, degradados, fade y arreglo de barba.',
+  url: SITE,
+  telephone: '+34642701740',
+  image: ogImageURL,
+  priceRange: '€',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'C. de la Marquesa Viuda de Aldama, 40',
+    addressLocality: 'Alcobendas',
+    addressRegion: 'Madrid',
+    postalCode: '28100',
+    addressCountry: 'ES',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 40.5421482,
+    longitude: -3.6332860,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+      opens: '10:00',
+      closes: '20:30',
+    },
+  ],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '51',
+    bestRating: '5',
+  },
+  sameAs: [
+    'https://www.instagram.com/freshbarbershop_mad/',
+    'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas',
+  ],
+};
 ---
 
 <!DOCTYPE html>
@@ -19,11 +69,39 @@ const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberi
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary -->
   <title>{title}</title>
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={canonicalURL} />
+  <meta property="og:title"       content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image"       content={ogImageURL} />
+  <meta property="og:locale"      content="es_ES" />
+  <meta property="og:site_name"   content="Fresh Barbershop" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image"       content={ogImageURL} />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <!-- Sitemap -->
+  <link rel="sitemap" href="/sitemap.xml" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- JSON-LD Local Business -->
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
 </head>
 <body>
 

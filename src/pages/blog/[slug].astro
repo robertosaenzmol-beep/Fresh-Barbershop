@@ -25,6 +25,8 @@ const dateFormatted = post.data.date.toLocaleDateString('es-ES', {
 <Layout
   title={`${post.data.title} — Fresh Barbershop`}
   description={post.data.excerpt}
+  ogImage={post.data.coverImage ?? '/hero-dani.jpeg'}
+  canonical={`/blog/${post.slug}`}
 >
 
   <!-- POST HERO ============================================ -->
