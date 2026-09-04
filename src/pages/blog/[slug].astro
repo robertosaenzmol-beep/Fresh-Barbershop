@@ -20,21 +20,53 @@ const dateFormatted = post.data.date.toLocaleDateString('es-ES', {
   month: 'long',
   year: 'numeric',
 });
+
+const dateISO = post.data.date.toISOString().split('T')[0];
+const SITE = 'https://fresh-barbershop.vercel.app';
+
+const blogPostSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.excerpt,
+  datePublished: dateISO,
+  image: post.data.coverImage ? `${SITE}${post.data.coverImage}` : `${SITE}/images/hero-dani.jpeg`,
+  author: {
+    '@type': 'Organization',
+    name: 'Fresh Barbershop',
+    url: SITE,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Fresh Barbershop',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE}/images/logo-fresh-barbershop.png`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${SITE}/blog/${post.slug}`,
+  },
+};
 ---
 
 <Layout
   title={`${post.data.title} — Fresh Barbershop`}
   description={post.data.excerpt}
-  ogImage={post.data.coverImage ?? '/hero-dani.jpeg'}
+  ogImage={post.data.coverImage ?? '/images/hero-dani.jpeg'}
   canonical={`/blog/${post.slug}`}
 >
+
+  <!-- BlogPosting JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(blogPostSchema)} />
 
   <!-- POST HERO ============================================ -->
   <div class="post-hero">
     <a class="post-back" href="/blog">← Blog</a>
     <p class="post-category">{post.data.category}</p>
     <h1 class="post-title">{post.data.title}</h1>
-    <p class="post-meta">{dateFormatted} · Fresh Barbershop, Alcobendas</p>
+    <p class="post-meta"><time datetime={dateISO}>{dateFormatted}</time> · Fresh Barbershop, Alcobendas</p>
   </div>
 
   <!-- COVER IMAGE (optional) =============================== -->
@@ -57,7 +89,7 @@ const dateFormatted = post.data.date.toLocaleDateString('es-ES', {
     <p style="font-size: var(--t-sm); color: var(--mid); margin-bottom: var(--s32); line-height: 1.6;">
       ¿Tienes dudas sobre tu próximo corte? En Fresh Barbershop te asesoramos en persona.
     </p>
-    <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--dark" style="padding: 12px 28px; font-size: var(--t-sm);">
+    <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--dark" style="padding: 12px 28px; font-size: var(--t-sm);">
       Reservar cita en Booksy →
     </a>
   </div>

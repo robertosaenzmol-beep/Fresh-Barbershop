@@ -11,7 +11,7 @@ interface Props {
 const {
   title = 'Fresh Barbershop — Barbería en Alcobendas, Madrid',
   description = 'Barbería en Alcobendas, Madrid. Cortes, degradados, fade y arreglo de barba. Profesionales con criterio. Reserva en Booksy o llama al 642 70 17 40.',
-  ogImage = '/hero-dani.jpeg',
+  ogImage = '/images/hero-dani.jpeg',
   canonical,
 } = Astro.props;
 
@@ -28,6 +28,7 @@ const localBusinessSchema = {
   description: 'Barbería en Alcobendas, Madrid. Cortes, degradados, fade y arreglo de barba.',
   url: SITE,
   telephone: '+34642701740',
+  email: 'freshbarbershop15@gmail.com',
   image: ogImageURL,
   priceRange: '€',
   address: {
@@ -91,14 +92,23 @@ const localBusinessSchema = {
   <meta name="twitter:image"       content={ogImageURL} />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
 
   <!-- Sitemap -->
   <link rel="sitemap" href="/sitemap.xml" />
 
+  <!-- SEO: author, geo, hreflang -->
+  <meta name="author" content="Fresh Barbershop" />
+  <meta name="geo.region" content="ES-MD" />
+  <meta name="geo.placename" content="Alcobendas" />
+  <meta name="geo.position" content="40.5421482;-3.6332860" />
+  <meta name="ICBM" content="40.5421482, -3.6332860" />
+  <link rel="alternate" hreflang="es" href={canonicalURL} />
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" />
 
   <!-- JSON-LD Local Business -->
   <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
@@ -115,12 +125,12 @@ const localBusinessSchema = {
 <body>
 
   <!-- NAV ================================================== -->
-  <nav class="nav">
+  <nav class="nav" aria-label="Navegación principal">
     <a href="/">
-      <img src="/logo-fresh-barbershop.png" alt="Fresh Barbershop" class="nav-logo" />
+      <img src="/images/logo-fresh-barbershop.png" alt="Fresh Barbershop" class="nav-logo" />
     </a>
     <span class="nav-location">Alcobendas · Madrid</span>
-    <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--light">
+    <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--light">
       Reservar →
     </a>
   </nav>
@@ -131,9 +141,9 @@ const localBusinessSchema = {
   <footer class="footer">
     <span class="footer-brand">Fresh Barbershop · Alcobendas · Madrid</span>
     <div class="footer-links">
-      <a href={BOOKSY} class="footer-link" target="_blank" rel="noopener">Booksy</a>
-      <a href="https://www.instagram.com/freshbarbershop_mad/" class="footer-link" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.instagram.com/saimonguedez_19" class="footer-link" target="_blank" rel="noopener">Simón</a>
+      <a href={BOOKSY} class="footer-link" target="_blank" rel="noopener nofollow">Booksy</a>
+      <a href="https://www.instagram.com/freshbarbershop_mad/" class="footer-link" target="_blank" rel="noopener nofollow">Instagram</a>
+      <a href="https://www.instagram.com/saimonguedez_19" class="footer-link" target="_blank" rel="noopener nofollow">Simón</a>
       <a href="tel:+34642701740" class="footer-link">642 70 17 40</a>
     </div>
     <div class="footer-legal">
@@ -141,7 +151,7 @@ const localBusinessSchema = {
       <a href="/politica-de-privacidad" class="footer-link footer-link--legal">Privacidad</a>
       <a href="/politica-de-cookies" class="footer-link footer-link--legal">Cookies</a>
     </div>
-    <span class="footer-copy">© 2026</span>
+    <span class="footer-copy">© 2026 Fresh Barbershop Madrid</span>
   </footer>
 
   <!-- COOKIE BANNER ======================================== -->

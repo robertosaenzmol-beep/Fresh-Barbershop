@@ -23,7 +23,7 @@ const reviews = [
   <section class="hero">
     <div class="hero-bg">
       <img
-        src="/hero-dani.jpeg"
+        src="/images/hero-dani.jpeg"
         alt="Fresh Barbershop Madrid"
         loading="eager"
         fetchpriority="high"
@@ -35,7 +35,7 @@ const reviews = [
 
       <img
         class="hero-logo-mark"
-        src="/logo-fresh-barbershop.png"
+        src="/images/logo-fresh-barbershop.png"
         alt="Fresh Barbershop"
       />
 
@@ -45,7 +45,7 @@ const reviews = [
           Degradados, cortes y barba hechos<br />con tiempo, con criterio y con ganas.
         </p>
         <div class="hero-cta-wrap">
-          <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--white btn-ghost--lg">
+          <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--white btn-ghost--lg">
             Pedir cita →
           </a>
         </div>
@@ -120,20 +120,28 @@ const reviews = [
 
 
   <!-- GALLERY ============================================== -->
-  <div class="gallery-grid reveal">
+  <section class="gallery-grid reveal" aria-label="Galería de fotos">
     <div class="gallery-cell gallery-cell--main">
-      <img src="/hero-dani.jpeg" alt="Barbero Fresh Barbershop" style="object-position: center 12%;" />
+      <img src="/images/hero-dani.jpeg" alt="Barbero trabajando en Fresh Barbershop Alcobendas" loading="lazy" style="object-position: center 12%;" />
       <div class="gallery-cell-label">Nuestro trabajo</div>
     </div>
     <div class="gallery-cell">
-      <img src="/barber-work.jpeg" alt="Corte en Fresh Barbershop" style="object-position: center center; filter: brightness(0.85);" />
+      <img src="/images/barber-work.jpeg" alt="Corte degradado en Fresh Barbershop Alcobendas" loading="lazy" style="object-position: center center; filter: brightness(0.85);" />
       <div class="gallery-cell-label">En el sillón</div>
     </div>
     <div class="gallery-cell">
-      <img src="/interior.webp" alt="Interior Fresh Barbershop Alcobendas" style="object-position: center 35%; filter: brightness(0.82);" />
+      <img src="/images/interior.webp" alt="Interior de la barbería Fresh Barbershop en Alcobendas Madrid" loading="lazy" style="object-position: center 35%; filter: brightness(0.82);" />
       <div class="gallery-cell-label">La casa</div>
     </div>
-  </div>
+    <div class="gallery-cell">
+      <img src="/images/team-photo.jpeg" alt="Equipo de barberos de Fresh Barbershop Alcobendas" loading="lazy" style="object-position: center center; filter: brightness(0.83);" />
+      <div class="gallery-cell-label">El equipo</div>
+    </div>
+    <div class="gallery-cell">
+      <img src="/images/fondoFresh.png" alt="Fresh Barbershop barbería masculina Alcobendas Madrid" loading="lazy" style="object-position: center center; filter: brightness(0.80);" />
+      <div class="gallery-cell-label">Fresh</div>
+    </div>
+  </section>
 
 
   <!-- MAPA ================================================= -->
@@ -151,7 +159,7 @@ const reviews = [
     <div class="map-address reveal">
       <span>C. de la Marquesa Viuda de Aldama, 40</span>
       <span>28100 Alcobendas, Madrid</span>
-      <a href="https://maps.app.goo.gl/h253SwzqPJnPNuEL6" target="_blank" rel="noopener" class="map-directions">Cómo llegar ↗</a>
+      <a href="https://maps.app.goo.gl/h253SwzqPJnPNuEL6" target="_blank" rel="noopener nofollow" class="map-directions">Cómo llegar ↗</a>
     </div>
   </section>
 
@@ -184,7 +192,7 @@ const reviews = [
       <a
         href="https://maps.app.goo.gl/h253SwzqPJnPNuEL6"
         target="_blank"
-        rel="noopener"
+        rel="noopener nofollow"
         class="btn-ghost btn-ghost--dark"
         style="padding: 12px 28px; font-size: var(--t-sm);"
       >
@@ -342,7 +350,7 @@ const reviews = [
           <span class="hour-time hour-time--closed">Cerrado</span>
         </div>
         <div style="margin-top: var(--s40);">
-          <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--dark" style="padding: 12px 24px; font-size: var(--t-sm);">
+          <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--dark" style="padding: 12px 24px; font-size: var(--t-sm);">
             Reservar en Booksy →
           </a>
         </div>
@@ -350,7 +358,7 @@ const reviews = [
 
       <div class="info-col">
         <div class="info-label">Dónde estamos</div>
-        <a href="https://share.google/6tSTJGZo5cR8UOMvf" target="_blank" rel="noopener" class="contact-address" style="display:block; text-decoration:none;">
+        <a href="https://share.google/6tSTJGZo5cR8UOMvf" target="_blank" rel="noopener nofollow" class="contact-address" style="display:block; text-decoration:none;">
           C. de la Marquesa<br />Viuda de Aldama, 40<br />28100 Alcobendas, Madrid ↗
         </a>
         <div class="contact-rows">
@@ -361,19 +369,25 @@ const reviews = [
           <div class="contact-row">
             <span class="contact-row-label">Instagram</span>
             <span class="contact-row-value">
-              <a href="https://www.instagram.com/freshbarbershop_mad/" target="_blank" rel="noopener">@freshbarbershop_mad</a>
+              <a href="https://www.instagram.com/freshbarbershop_mad/" target="_blank" rel="noopener nofollow">@freshbarbershop_mad</a>
             </span>
           </div>
           <div class="contact-row">
             <span class="contact-row-label">Simón</span>
             <span class="contact-row-value">
-              <a href="https://www.instagram.com/saimonguedez_19" target="_blank" rel="noopener">@saimonguedez_19</a>
+              <a href="https://www.instagram.com/saimonguedez_19" target="_blank" rel="noopener nofollow">@saimonguedez_19</a>
+            </span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-row-label">Email</span>
+            <span class="contact-row-value">
+              <a href="mailto:freshbarbershop15@gmail.com">freshbarbershop15@gmail.com</a>
             </span>
           </div>
           <div class="contact-row">
             <span class="contact-row-label">Reservas</span>
             <span class="contact-row-value">
-              <a href={BOOKSY} target="_blank" rel="noopener">Booksy</a>
+              <a href={BOOKSY} target="_blank" rel="noopener nofollow">Booksy</a>
             </span>
           </div>
         </div>
@@ -388,7 +402,7 @@ const reviews = [
     <div class="booking-eyebrow reveal">Ya sabes que toca</div>
     <div class="booking-title reveal">Pide<br />tu cita</div>
     <div class="booking-sub reveal">Alcobendas · Madrid · 642 70 17 40</div>
-    <a href={BOOKSY} target="_blank" rel="noopener" class="btn-ghost btn-ghost--white btn-ghost--lg">
+    <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--white btn-ghost--lg">
       Pedir cita en Booksy →
     </a>
   </div>

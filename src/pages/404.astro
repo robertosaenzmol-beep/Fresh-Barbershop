@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
+---
+
+<Layout
+  title="Página no encontrada — Fresh Barbershop"
+  description="La página que buscas no existe. Vuelve a la web de Fresh Barbershop en Alcobendas."
+>
+
+  <div style="padding-top: var(--nav-h); min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--s80) var(--gutter);">
+    <p style="font-size: var(--t-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); margin-bottom: var(--s24);">Error 404</p>
+    <h1 class="wordmark" style="margin-bottom: var(--s24);">Página no encontrada</h1>
+    <p style="font-size: var(--t-sub); color: var(--mid); max-width: 440px; line-height: 1.6; margin-bottom: var(--s48);">
+      La página que buscas no existe o ha sido movida. Vuelve al inicio o reserva tu cita.
+    </p>
+    <div style="display: flex; gap: var(--s16); flex-wrap: wrap; justify-content: center;">
+      <a href="/" class="btn-ghost btn-ghost--dark" style="padding: 12px 28px; font-size: var(--t-sm);">
+        Volver al inicio →
+      </a>
+      <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--dark" style="padding: 12px 28px; font-size: var(--t-sm);">
+        Reservar cita →
+      </a>
+    </div>
+  </div>
+
+</Layout>
