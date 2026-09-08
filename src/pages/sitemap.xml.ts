@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 
-const SITE = 'https://fresh-barbershop.vercel.app';
+const SITE = 'https://freshbarbershop.es';
 
 export async function GET() {
   const posts = await getCollection('blog');

@@ -2,7 +2,7 @@ backend:
   name: github
   repo: robertosaenzmol-beep/Fresh-Barbershop
   branch: main
-  base_url: https://freshbarbershop.vercel.app  # cambia a tu dominio real si tienes uno
+  base_url: https://freshbarbershop.es
 
 media_folder: public/images/blog
 public_folder: /images/blog

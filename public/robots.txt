@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fresh-barbershop.vercel.app/sitemap.xml
+Sitemap: https://freshbarbershop.es/sitemap.xml

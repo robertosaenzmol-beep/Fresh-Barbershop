@@ -2,26 +2,22 @@
 
 ## Urgente (bloquea funcionalidad)
 
-- [ ] **Google Analytics: poner ID real** — En `src/layouts/Layout.astro` línea 168, cambiar `G-XXXXXXXXXX` por el ID de medición real de GA4. Sin esto no se recogen datos de visitas. Obtenerlo desde [analytics.google.com](https://analytics.google.com) con la cuenta `freshbarbershop15@gmail.com`.
+- [ ] **Google Analytics: poner ID real** — En `src/layouts/Layout.astro`, cambiar `G-XXXXXXXXXX` por el ID de medición real de GA4. Aparece en dos sitios: el `<script>` del head y la variable `GA_ID` del cookie banner. Sin esto no se recogen datos de visitas. Obtenerlo desde [analytics.google.com](https://analytics.google.com) con la cuenta `freshbarbershop15@gmail.com`.
 
-- [ ] **Dominio propio** — La web funciona en `fresh-barbershop.vercel.app`. Si se tiene o se compra un dominio (ej: `freshbarbershop.es`, que ya se menciona en el Aviso Legal), hay que:
-  - Configurarlo en Vercel (Settings → Domains)
-  - Actualizar la variable `SITE` en `Layout.astro`, `[slug].astro`, `sitemap.xml.ts`
-  - Actualizar `astro.config.mjs` (`site`)
-  - Actualizar `public/robots.txt` (URL del sitemap)
-  - Actualizar el Aviso Legal si el dominio final es diferente a `freshbarbershop.es`
+- [ ] **Dominio: configurar DNS en el proveedor** — El dominio `freshbarbershop.es` ya está actualizado en todos los ficheros del proyecto. Falta configurar los registros DNS apuntando a Vercel:
+  - **A** → `76.76.21.21` (para `freshbarbershop.es`)
+  - **CNAME** → `cname.vercel-dns.com` (para `www.freshbarbershop.es`)
+  - Añadir el dominio en Vercel → Settings → Domains
 
 ## SEO y visibilidad
 
-- [ ] **Google Search Console** — Entrar con `freshbarbershop15@gmail.com`, añadir la propiedad de la web y enviar el sitemap (`/sitemap.xml`). Esto hace que Google rastree e indexe la web.
+- [ ] **Google Search Console** — Entrar con `freshbarbershop15@gmail.com`, añadir la propiedad `https://freshbarbershop.es` y enviar el sitemap (`https://freshbarbershop.es/sitemap.xml`). Esto hace que Google rastree e indexe la web.
 
-- [ ] **Google Business Profile** — Verificar que el perfil de la barbería en Google Maps tiene los datos exactos (nombre, dirección, teléfono, web, email). La consistencia NAP es clave para SEO local.
-
-- [ ] **Incoherencia de dominio en Aviso Legal** — En `src/pages/aviso-legal.astro` se menciona `freshbarbershop.es` como dominio, pero la web está en `fresh-barbershop.vercel.app`. Alinear cuando se tenga el dominio definitivo.
+- [ ] **Google Business Profile** — Verificar que el perfil de la barbería en Google Maps tiene los datos exactos (nombre, dirección, teléfono, web: `https://freshbarbershop.es`, email). La consistencia NAP es clave para SEO local.
 
 ## Imágenes y rendimiento
 
-- [ ] **`fondoFresh.png` pesa 1 MB** — Es un PNG. Convertirla a WebP o JPEG comprimido para bajar a ~100-200 KB.
+- [ ] **`fondoFresh.png` pesa 1 MB** — Es un PNG usado como textura de fondo en la nav, secciones oscuras, footer, booking y cookie banner. Convertirla a WebP o JPEG comprimido para bajar a ~100-200 KB.
 
 - [ ] **`logo-fresh-barbershop.png` pesa 783 KB** — Es excesivo para un logo. Convertir a WebP o SVG, o al menos comprimir el PNG. Debería pesar menos de 100 KB.
 
@@ -39,14 +35,29 @@
 
 - [ ] **Cookie banner solo usa `localStorage`** — Técnicamente no es una cookie, pero cumple su función. Si en el futuro se añaden más servicios (chat, pixel de Facebook, etc.), revisar la implementación.
 
-## Git / deploy
+## Limpieza
 
-- [ ] **Imágenes movidas a `/images/` sin commitear** — Las imágenes se movieron de `public/` a `public/images/` pero los cambios no están commiteados. Los ficheros antiguos aparecen como "deleted" y los nuevos como "untracked" en git status. Hacer commit de estos cambios.
+- [ ] **`index.html` en la raíz del proyecto** — Es la versión antigua de la web (42 KB, HTML monolítico pre-Astro). No se usa para nada. Eliminar.
 
-- [ ] **Archivos sueltos en la raíz del proyecto** — Hay imágenes antiguas en la raíz del proyecto (`.jpeg`, `.png`) que ya no se usan. Verificar y eliminar si son residuales.
+## Ya resuelto
 
-- [ ] **Carpeta `.vercel/` y `.astro/` sin gitignore** — Verificar que `.gitignore` incluye `.vercel/` y `.astro/` para no subir artefactos de build al repo.
+- [x] ~~Dominio actualizado en todos los ficheros~~ — Cambiado `fresh-barbershop.vercel.app` → `freshbarbershop.es` en Layout.astro, [slug].astro, sitemap.xml.ts, astro.config.mjs, robots.txt, admin/config.yml.
+- [x] ~~Incoherencia de dominio en Aviso Legal~~ — Ya coincide con `freshbarbershop.es`.
+- [x] ~~Imágenes movidas a `/images/` sin commitear~~ — Commiteado y pusheado.
+- [x] ~~Archivos sueltos en la raíz (`.jpeg`, `.png` residuales)~~ — Eliminados en el commit.
+- [x] ~~`.vercel/` y `.astro/` sin gitignore~~ — Añadidos a `.gitignore`.
+- [x] ~~Datos del propietario (nombre, NIF, email) en páginas legales~~ — Actualizados.
+- [x] ~~Sitemap estático que no se actualiza~~ — Sustituido por `sitemap.xml.ts` dinámico.
+- [x] ~~Sin página 404~~ — Creada.
+- [x] ~~Sin schema BlogPosting en blog~~ — Añadido JSON-LD en cada post.
+- [x] ~~Fuentes cargadas con @import en CSS (render-blocking)~~ — Movidas a `<link>` en head.
+- [x] ~~Sin meta tags SEO (author, geo, hreflang)~~ — Añadidos.
+- [x] ~~Sin `nofollow` en enlaces externos~~ — Añadido en todos.
+- [x] ~~Nav sin aria-label~~ — Añadido.
+- [x] ~~Galería sin lazy loading~~ — Añadido.
+- [x] ~~Rutas de imágenes rotas (`/fondoFresh.png` en CSS)~~ — Corregidas a `/images/`.
+- [x] ~~Diseño: animaciones y micro-interacciones~~ — Hero Ken Burns, button feedback, review card hover, map color reveal, footer underline, cookie slide-up, ::selection, focus-visible.
 
 ---
 
-*Última revisión: septiembre 2026*
+*Última revisión: 8 septiembre 2026*
