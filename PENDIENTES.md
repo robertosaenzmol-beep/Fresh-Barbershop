@@ -2,7 +2,7 @@
 
 ## Urgente (bloquea funcionalidad)
 
-- [ ] **Google Analytics: poner ID real** — En `src/layouts/Layout.astro`, cambiar `G-XXXXXXXXXX` por el ID de medición real de GA4. Aparece en dos sitios: el `<script>` del head y la variable `GA_ID` del cookie banner. Sin esto no se recogen datos de visitas. Obtenerlo desde [analytics.google.com](https://analytics.google.com) con la cuenta `freshbarbershop15@gmail.com`.
+- [x] ~~Google Analytics: poner ID real~~ — Configurado con `G-51880QYVXE`.
 
 - [ ] **Dominio: configurar DNS en el proveedor** — El dominio `freshbarbershop.es` ya está actualizado en todos los ficheros del proyecto. Falta configurar los registros DNS apuntando a Vercel:
   - **A** → `76.76.21.21` (para `freshbarbershop.es`)
