@@ -130,7 +130,7 @@ const localBusinessSchema = {
       <img src="/images/logo-fresh-barbershop.webp" alt="Fresh Barbershop" class="nav-logo" />
     </a>
     <span class="nav-location">Alcobendas · Madrid</span>
-    <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--light">
+    <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--light" onclick="gtag('event', 'reserva_booksy', { 'metodo': 'boton_web' })">
       Reservar →
     </a>
   </nav>
@@ -141,7 +141,7 @@ const localBusinessSchema = {
   <footer class="footer">
     <span class="footer-brand">Fresh Barbershop · Alcobendas · Madrid</span>
     <div class="footer-links">
-      <a href={BOOKSY} class="footer-link" target="_blank" rel="noopener nofollow">Booksy</a>
+      <a href={BOOKSY} class="footer-link" target="_blank" rel="noopener nofollow" onclick="gtag('event', 'reserva_booksy', { 'metodo': 'boton_web' })">Booksy</a>
       <a href="https://www.instagram.com/freshbarbershop_mad/" class="footer-link" target="_blank" rel="noopener nofollow">Instagram</a>
       <a href="https://www.instagram.com/saimonguedez_19" class="footer-link" target="_blank" rel="noopener nofollow">Simón</a>
       <a href="tel:+34642701740" class="footer-link">642 70 17 40</a>
