@@ -112,13 +112,11 @@ const localBusinessSchema = {
 
   <!-- JSON-LD Local Business -->
   <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
-    <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-51880QYVXE"></script>
+
+  <!-- GA stub: queues events (onclick handlers) until user consents and loadGA() fires -->
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-51880QYVXE');
   </script>
 
 </head>
@@ -191,8 +189,6 @@ const localBusinessSchema = {
         s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
         s.async = true;
         document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { window.dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', GA_ID);
       }
