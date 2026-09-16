@@ -105,10 +105,12 @@ const localBusinessSchema = {
   <meta name="ICBM" content="40.5421482, -3.6332860" />
   <link rel="alternate" hreflang="es" href={canonicalURL} />
 
-  <!-- Fonts -->
+  <!-- Fonts (non-render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" /></noscript>
 
   <!-- JSON-LD Local Business -->
   <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
@@ -125,7 +127,7 @@ const localBusinessSchema = {
   <!-- NAV ================================================== -->
   <nav class="nav" aria-label="Navegación principal">
     <a href="/">
-      <img src="/images/logo-fresh-barbershop.webp" alt="Fresh Barbershop" class="nav-logo" />
+      <img src="/images/logo-fresh-barbershop.webp" alt="Fresh Barbershop" class="nav-logo" width="800" height="451" />
     </a>
     <span class="nav-location">Alcobendas · Madrid</span>
     <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--light" onclick="gtag('event', 'reserva_booksy', { 'metodo': 'boton_web' })">

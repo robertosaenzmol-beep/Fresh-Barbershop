@@ -27,6 +27,8 @@ const reviews = [
         alt="Fresh Barbershop Madrid"
         loading="eager"
         fetchpriority="high"
+        width="1400"
+        height="1400"
       />
     </div>
 
@@ -37,6 +39,8 @@ const reviews = [
         class="hero-logo-mark"
         src="/images/logo-fresh-barbershop.webp"
         alt="Fresh Barbershop"
+        width="800"
+        height="451"
       />
 
       <div class="hero-bottom">
@@ -116,29 +120,46 @@ const reviews = [
     </div>
   </section>
 
-  <script is:inline src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" type="module"></script>
+  <script is:inline>
+    (function() {
+      var loaded = false;
+      var target = document.querySelector('.about-model');
+      if (!target) return;
+      var observer = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !loaded) {
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js';
+          s.type = 'module';
+          document.head.appendChild(s);
+          observer.disconnect();
+        }
+      }, { rootMargin: '200px' });
+      observer.observe(target);
+    })();
+  </script>
 
 
   <!-- GALLERY ============================================== -->
   <section class="gallery-grid reveal" aria-label="Galería de fotos">
     <div class="gallery-cell gallery-cell--main">
-      <img src="/images/hero-dani.webp" alt="Barbero trabajando en Fresh Barbershop Alcobendas" loading="lazy" style="object-position: center 12%;" />
+      <img src="/images/hero-dani.webp" alt="Barbero trabajando en Fresh Barbershop Alcobendas" loading="lazy" width="1400" height="1400" style="object-position: center 12%;" />
       <div class="gallery-cell-label">Nuestro trabajo</div>
     </div>
     <div class="gallery-cell">
-      <img src="/images/barber-work.webp" alt="Corte degradado en Fresh Barbershop Alcobendas" loading="lazy" style="object-position: center center; filter: brightness(0.85);" />
+      <img src="/images/barber-work.webp" alt="Corte degradado en Fresh Barbershop Alcobendas" loading="lazy" width="1270" height="1270" style="object-position: center center; filter: brightness(0.85);" />
       <div class="gallery-cell-label">En el sillón</div>
     </div>
     <div class="gallery-cell">
-      <img src="/images/interior.webp" alt="Interior de la barbería Fresh Barbershop en Alcobendas Madrid" loading="lazy" style="object-position: center 35%; filter: brightness(0.82);" />
+      <img src="/images/interior.webp" alt="Interior de la barbería Fresh Barbershop en Alcobendas Madrid" loading="lazy" width="765" height="1020" style="object-position: center 35%; filter: brightness(0.82);" />
       <div class="gallery-cell-label">La casa</div>
     </div>
     <div class="gallery-cell">
-      <img src="/images/team-photo.webp" alt="Equipo de barberos de Fresh Barbershop Alcobendas" loading="lazy" style="object-position: center center; filter: brightness(0.83);" />
+      <img src="/images/team-photo.webp" alt="Equipo de barberos de Fresh Barbershop Alcobendas" loading="lazy" width="1175" height="660" style="object-position: center center; filter: brightness(0.83);" />
       <div class="gallery-cell-label">El equipo</div>
     </div>
     <div class="gallery-cell">
-      <img src="/images/fondoFresh.webp" alt="Fresh Barbershop barbería masculina Alcobendas Madrid" loading="lazy" style="object-position: center center; filter: brightness(0.80);" />
+      <img src="/images/fondoFresh.webp" alt="Fresh Barbershop barbería masculina Alcobendas Madrid" loading="lazy" width="1200" height="1200" style="object-position: center center; filter: brightness(0.80);" />
       <div class="gallery-cell-label">Fresh</div>
     </div>
   </section>
@@ -149,11 +170,15 @@ const reviews = [
     <div class="map-label reveal">Ubicación · Alcobendas, Madrid</div>
     <div class="map-wrapper reveal">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6063.949386671603!2d-3.6332860238589633!3d40.54214824799619!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422dd4637e250d%3A0x2cf62e2df3f9a51b!2sFresh%20barber%20shop%20Madrid%20Barber%C3%ADa%26peluqueria%20masculina!5e0!3m2!1ses!2ses!4v1787755596528!5m2!1ses!2ses"
+        data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6063.949386671603!2d-3.6332860238589633!3d40.54214824799619!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422dd4637e250d%3A0x2cf62e2df3f9a51b!2sFresh%20barber%20shop%20Madrid%20Barber%C3%ADa%26peluqueria%20masculina!5e0!3m2!1ses!2ses!4v1787755596528!5m2!1ses!2ses"
+        width="600"
+        height="450"
         allowfullscreen=""
         loading="lazy"
         referrerpolicy="strict-origin-when-cross-origin"
         title="Fresh Barbershop en Google Maps"
+        style="border:0;"
+        id="map-iframe"
       ></iframe>
     </div>
     <div class="map-address reveal">
@@ -163,6 +188,20 @@ const reviews = [
     </div>
   </section>
 
+
+  <script is:inline>
+    (function() {
+      var iframe = document.getElementById('map-iframe');
+      if (!iframe) return;
+      var observer = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          iframe.src = iframe.getAttribute('data-src');
+          observer.disconnect();
+        }
+      }, { rootMargin: '300px' });
+      observer.observe(iframe);
+    })();
+  </script>
 
   <!-- RESEÑAS ============================================== -->
   <section class="section section--paper">
