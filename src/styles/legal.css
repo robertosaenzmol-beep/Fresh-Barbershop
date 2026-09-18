@@ -1,0 +1,50 @@
+.legal-hero {
+  padding-top: calc(var(--nav-h) + var(--s64));
+  padding-bottom: var(--s48);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  background-color: var(--ink); background-image: url('/images/fondoFresh.webp'); background-repeat: repeat; background-size: 320px auto;
+  color: var(--white);
+}
+.legal-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: var(--s16);
+}
+.legal-subtitle {
+  font-size: var(--t-sm);
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.05em;
+}
+.legal-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--s80) var(--gutter);
+  font-size: var(--t-body);
+  line-height: 1.8;
+  color: var(--ink);
+}
+.legal-body h2 {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: var(--s64);
+  margin-bottom: var(--s16);
+  padding-bottom: var(--s12);
+  border-bottom: 1px solid var(--hairline);
+}
+.legal-body h3 { font-size: var(--t-sub); font-weight: 600; color: var(--ink); margin-top: var(--s32); margin-bottom: var(--s12); }
+.legal-body p { margin-bottom: var(--s16); }
+.legal-body ul { margin: var(--s16) 0; padding-left: var(--s24); }
+.legal-body li { margin-bottom: var(--s8); }
+.legal-body a { color: var(--ink); text-decoration: underline; }
+.legal-body strong { font-weight: 600; }
+.legal-body code { font-family: ui-monospace, monospace; font-size: 0.9em; background: var(--hairline); padding: 2px 6px; border-radius: 3px; }

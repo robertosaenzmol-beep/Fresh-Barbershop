@@ -23,7 +23,7 @@ const reviews = [
 ];
 ---
 
-<Layout>
+<Layout preloadImage="/images/hero-dani.webp">
 
   <!-- HERO ================================================= -->
   <section class="hero">
@@ -133,7 +133,7 @@ const reviews = [
           document.head.appendChild(s);
           observer.disconnect();
         }
-      }, { rootMargin: '200px' });
+      }, { rootMargin: '50px' });
       observer.observe(target);
     })();
   </script>
