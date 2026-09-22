@@ -373,7 +373,7 @@ const reviews = [
 
     <div class="blog-list reveal-group">
       {posts.map((post, i) => (
-        <a class="blog-item" href={`/blog/${post.slug}`}>
+        <a class="blog-item" href={`/blog/${post.id}`}>
           <div class="blog-num">{String(i + 1).padStart(2, '0')}</div>
           <div class="blog-body">
             <div class="blog-category">{post.data.category}</div>

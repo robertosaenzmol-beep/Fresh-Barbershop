@@ -1,17 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
 
@@ -47,7 +47,7 @@ const blogPostSchema = {
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
-    '@id': `${SITE}/blog/${post.slug}`,
+    '@id': `${SITE}/blog/${post.id}`,
   },
 };
 
@@ -71,7 +71,7 @@ const breadcrumbSchema = {
       '@type': 'ListItem',
       position: 3,
       name: post.data.title,
-      item: `${SITE}/blog/${post.slug}`,
+      item: `${SITE}/blog/${post.id}`,
     },
   ],
 };
@@ -81,7 +81,7 @@ const breadcrumbSchema = {
   title={`${post.data.title} — Fresh Barbershop`}
   description={post.data.excerpt}
   ogImage={post.data.coverImage ?? '/images/hero-dani.jpeg'}
-  canonical={`/blog/${post.slug}`}
+  canonical={`/blog/${post.id}`}
   articleDate={dateISO}
   articleCategory={post.data.category}
 >

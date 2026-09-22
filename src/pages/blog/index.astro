@@ -30,7 +30,7 @@ const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberi
   <section class="section">
     <div class="blog-list">
       {posts.map((post, i) => (
-        <a class="blog-item" href={`/blog/${post.slug}`}>
+        <a class="blog-item" href={`/blog/${post.id}`}>
           <div class="blog-num">{String(i + 1).padStart(2, '0')}</div>
           <div class="blog-body">
             <div class="blog-category">{post.data.category}</div>

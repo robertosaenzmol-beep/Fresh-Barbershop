@@ -14,7 +14,7 @@ export async function GET() {
   ];
 
   const blogPages = posts.map((post) => ({
-    loc: `/blog/${post.slug}/`,
+    loc: `/blog/${post.id}/`,
     changefreq: 'monthly',
     priority: '0.7',
     lastmod: post.data.date.toISOString().split('T')[0],
