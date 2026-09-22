@@ -10,40 +10,60 @@ export const GET: APIRoute = async ({ request }) => {
     return new Response('Missing code parameter', { status: 400 });
   }
 
-  const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      client_id: import.meta.env.OAUTH_GITHUB_CLIENT_ID,
-      client_secret: import.meta.env.OAUTH_GITHUB_CLIENT_SECRET,
-      code,
-    }),
-  });
+  const clientId = process.env.OAUTH_GITHUB_CLIENT_ID;
+  const clientSecret = process.env.OAUTH_GITHUB_CLIENT_SECRET;
 
-  const data = await tokenRes.json();
+  if (!clientId || !clientSecret) {
+    return new Response('OAuth env vars not configured', { status: 500 });
+  }
 
-  const status = data.access_token ? 'success' : 'error';
-  const content = data.access_token
-    ? JSON.stringify({ token: data.access_token, provider: 'github' })
-    : JSON.stringify({ error: data.error_description || 'Authorization failed' });
+  try {
+    const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        client_id: clientId,
+        client_secret: clientSecret,
+        code,
+      }),
+    });
 
-  const html = `<!DOCTYPE html><html><body><script>
-    (function() {
-      var status = ${JSON.stringify(status)};
-      var content = ${content};
-      var msg = "authorization:github:" + status + ":" + JSON.stringify(content);
-      function sendMsg(e) {
-        window.opener.postMessage(msg, e.origin);
-      }
-      window.addEventListener("message", sendMsg, false);
-      window.opener.postMessage("authorizing:github", "*");
-    })();
-  </script></body></html>`;
+    const data = await tokenRes.json();
 
-  return new Response(html, {
-    headers: { 'Content-Type': 'text/html' },
-  });
+    if (!data.access_token) {
+      return new Response(
+        `<html><body><h3>Auth error</h3><pre>${JSON.stringify(data, null, 2)}</pre></body></html>`,
+        { headers: { 'Content-Type': 'text/html' } }
+      );
+    }
+
+    const token = data.access_token;
+    const provider = 'github';
+
+    return new Response(
+      `<!DOCTYPE html><html><body><script>
+        (function() {
+          var token = ${JSON.stringify(token)};
+          var provider = ${JSON.stringify(provider)};
+          function sendMsg(e) {
+            window.opener.postMessage(
+              "authorization:" + provider + ":success:" + JSON.stringify({ token: token, provider: provider }),
+              e.origin
+            );
+          }
+          window.addEventListener("message", sendMsg, false);
+          window.opener.postMessage("authorizing:" + provider, "*");
+        })();
+      </script></body></html>`,
+      { headers: { 'Content-Type': 'text/html' } }
+    );
+  } catch (err) {
+    return new Response(
+      `<html><body><h3>Fetch error</h3><pre>${err}</pre></body></html>`,
+      { headers: { 'Content-Type': 'text/html' } }
+    );
+  }
 };
