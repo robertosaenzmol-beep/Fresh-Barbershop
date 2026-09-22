@@ -1,5 +1,5 @@
 ---
-title: "Barbería en Alcobendas: por qué Fresh Barbershop es diferente"
+title: "Barbería en Alcobendas: por qué Fresh es diferente"
 date: 2026-09-22
 category: "Barbería"
 excerpt: "Si buscas una barbería en Alcobendas que no sea de cadena ni de paso, aquí te contamos cómo trabajamos en Fresh Barbershop y por qué la gente repite."
