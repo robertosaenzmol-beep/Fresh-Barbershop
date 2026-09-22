@@ -21,23 +21,28 @@ export default async function handler(req, res) {
 
   const data = await tokenRes.json();
 
-  const content = data.access_token
-    ? JSON.stringify({ token: data.access_token, provider: 'github' })
-    : JSON.stringify({ error: data.error_description || 'Authorization failed' });
-
   const status = data.access_token ? 'success' : 'error';
+  const content = data.access_token
+    ? { token: data.access_token, provider: 'github' }
+    : { error: data.error_description || 'Authorization failed' };
+
+  const script = `
+    <script>
+      (function() {
+        var status = ${JSON.stringify(status)};
+        var content = ${JSON.stringify(content)};
+        var msg = "authorization:github:" + status + ":" + JSON.stringify(content);
+
+        function sendMsg(e) {
+          window.opener.postMessage(msg, e.origin);
+        }
+
+        window.addEventListener("message", sendMsg, false);
+        window.opener.postMessage("authorizing:github", "*");
+      })();
+    </script>
+  `;
 
   res.setHeader('Content-Type', 'text/html');
-  res.send(`<!DOCTYPE html><html><body><script>
-    (function() {
-      function sendMsg(e) {
-        window.opener.postMessage(
-          "authorization:github:${status}:" + ${JSON.stringify(content)},
-          e.origin
-        );
-      }
-      window.addEventListener("message", sendMsg, false);
-      window.opener.postMessage("authorizing:github", "*");
-    })();
-  </script></body></html>`);
+  res.send('<!DOCTYPE html><html><body>' + script + '</body></html>');
 }
