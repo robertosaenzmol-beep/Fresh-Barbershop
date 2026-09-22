@@ -30,6 +30,7 @@ const blogPostSchema = {
   headline: post.data.title,
   description: post.data.excerpt,
   datePublished: dateISO,
+  dateModified: dateISO,
   image: post.data.coverImage ? `${SITE}${post.data.coverImage}` : `${SITE}/images/hero-dani.jpeg`,
   author: {
     '@type': 'Organization',
@@ -49,6 +50,31 @@ const blogPostSchema = {
     '@id': `${SITE}/blog/${post.slug}`,
   },
 };
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Inicio',
+      item: SITE,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: `${SITE}/blog`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: post.data.title,
+      item: `${SITE}/blog/${post.slug}`,
+    },
+  ],
+};
 ---
 
 <Layout
@@ -56,10 +82,16 @@ const blogPostSchema = {
   description={post.data.excerpt}
   ogImage={post.data.coverImage ?? '/images/hero-dani.jpeg'}
   canonical={`/blog/${post.slug}`}
+  articleDate={dateISO}
+  articleCategory={post.data.category}
 >
 
   <!-- BlogPosting JSON-LD -->
   <script type="application/ld+json" set:html={JSON.stringify(blogPostSchema)} />
+
+  <!-- BreadcrumbList JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
 
   <!-- POST HERO ============================================ -->
   <div class="post-hero">

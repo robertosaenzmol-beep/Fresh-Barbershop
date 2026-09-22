@@ -7,6 +7,8 @@ interface Props {
   ogImage?: string;
   canonical?: string;
   preloadImage?: string;
+  articleDate?: string;
+  articleCategory?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   ogImage = '/images/hero-dani.jpeg',
   canonical,
   preloadImage,
+  articleDate,
+  articleCategory,
 } = Astro.props;
 
 const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
@@ -56,10 +60,166 @@ const localBusinessSchema = {
   ],
   aggregateRating: {
     '@type': 'AggregateRating',
-    ratingValue: '5.0',
+    ratingValue: '4.98',
     reviewCount: '309',
     bestRating: '5',
   },
+  review: [
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Fran Sevilla' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'Una barbería excelente, con grandes profesionales que siempre se adaptan a tus gustos y cortes. El trato es muy bueno. El local es muy amplio y luminoso.',
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Fernando Cerezo' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'Barbería de 10, grande, limpia, elegante y el trato lo mejor. Miguel un crack. Super recomendable.',
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Javier López' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'Fui por primera vez y repetiré seguro. Me hicieron un degradado perfecto. El local es espectacular, muy limpio y moderno.',
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Alejandro Ruiz' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'La mejor barbería de la zona sin duda. Profesionalidad, limpieza y un trato inmejorable. 100% recomendable.',
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Daniel Martín' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'Llevo yendo más de un año y siempre salgo contento. El ambiente es muy bueno y los chicos son unos profesionales.',
+    },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de barbería',
+    itemListElement: [
+      {
+        '@type': 'OfferCatalog',
+        name: 'Corte',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Corte clásico',
+              description: 'Corte de pelo con tijera o máquina, 30 minutos',
+            },
+            price: '13',
+            priceCurrency: 'EUR',
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Corte degradado',
+              description: 'Low, mid, high o skin fade, 40 minutos',
+            },
+            price: '13',
+            priceCurrency: 'EUR',
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Corte y barba',
+              description: 'Corte completo más arreglo de barba, 1 hora',
+            },
+            price: '18',
+            priceCurrency: 'EUR',
+          },
+        ],
+      },
+      {
+        '@type': 'OfferCatalog',
+        name: 'Barba',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Barba clásica',
+              description: 'Diseño, perfilado y navaja, 15 minutos',
+            },
+            price: '9',
+            priceCurrency: 'EUR',
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Barba express',
+              description: 'Arreglo rápido de barba, 5 minutos',
+            },
+            price: '4',
+            priceCurrency: 'EUR',
+          },
+        ],
+      },
+      {
+        '@type': 'OfferCatalog',
+        name: 'Otros servicios',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Depilación cejas con cera',
+              description: 'Depilación de cejas con cera, 15 minutos',
+            },
+            price: '8',
+            priceCurrency: 'EUR',
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Depilación orejas y nariz',
+              description: 'Depilación de orejas y nariz, 15 minutos',
+            },
+            price: '10',
+            priceCurrency: 'EUR',
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Perfilado de cejas',
+              description: 'Perfilado rápido de cejas, 5 minutos',
+            },
+            price: '2',
+            priceCurrency: 'EUR',
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Lavado',
+              description: 'Lavado de cabello, 5 minutos',
+            },
+            price: '2',
+            priceCurrency: 'EUR',
+          },
+        ],
+      },
+    ],
+  },
+  hasMap: 'https://maps.app.goo.gl/h253SwzqPJnPNuEL6',
+  areaServed: [
+    { '@type': 'City', name: 'Alcobendas', sameAs: 'https://es.wikipedia.org/wiki/Alcobendas' },
+    { '@type': 'City', name: 'San Sebastián de los Reyes' },
+    { '@type': 'City', name: 'Tres Cantos' },
+    { '@type': 'City', name: 'La Moraleja' },
+    { '@type': 'City', name: 'Colmenar Viejo' },
+  ],
+  paymentAccepted: 'Efectivo, Tarjeta de crédito, Tarjeta de débito, Bizum',
+  currenciesAccepted: 'EUR',
   sameAs: [
     'https://www.instagram.com/freshbarbershop_mad/',
     'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas',
@@ -71,7 +231,7 @@ const localBusinessSchema = {
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <!-- Primary -->
   <title>{title}</title>
@@ -79,13 +239,17 @@ const localBusinessSchema = {
   <link rel="canonical" href={canonicalURL} />
 
   <!-- Open Graph -->
-  <meta property="og:type"        content="website" />
+  <meta property="og:type"        content={articleDate ? 'article' : 'website'} />
   <meta property="og:url"         content={canonicalURL} />
   <meta property="og:title"       content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image"       content={ogImageURL} />
   <meta property="og:locale"      content="es_ES" />
   <meta property="og:site_name"   content="Fresh Barbershop" />
+  {articleDate && <meta property="article:published_time" content={articleDate} />}
+  {articleDate && <meta property="article:modified_time" content={articleDate} />}
+  {articleDate && <meta property="article:author" content="Fresh Barbershop" />}
+  {articleCategory && <meta property="article:section" content={articleCategory} />}
 
   <!-- Twitter / X -->
   <meta name="twitter:card"        content="summary_large_image" />
@@ -109,6 +273,7 @@ const localBusinessSchema = {
   <meta name="geo.position" content="40.5421482;-3.6332860" />
   <meta name="ICBM" content="40.5421482, -3.6332860" />
   <link rel="alternate" hreflang="es" href={canonicalURL} />
+  <link rel="alternate" hreflang="x-default" href={canonicalURL} />
 
   <!-- Fonts (non-render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
