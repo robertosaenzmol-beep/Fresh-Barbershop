@@ -48,17 +48,34 @@ export const GET: APIRoute = async ({ request }) => {
       token: data.access_token,
     });
 
-    // Mirror the exact script from sveltia-cms-auth (official authenticator)
     const msg = `authorization:github:success:${content}`;
 
     return new Response(
-      `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><script>
+      `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
+      <pre id="log" style="font-family:system-ui;font-size:14px;padding:20px;"></pre>
+      <script>
         (() => {
+          const log = (t) => { document.getElementById('log').textContent += t + '\\n'; };
+
+          log('window.opener: ' + (window.opener ? 'EXISTS' : 'NULL'));
+          log('message to send: ${msg.replace(/'/g, "\\'")}');
+
+          if (!window.opener) {
+            log('ERROR: window.opener is null — browser killed the reference during cross-origin redirect.');
+            return;
+          }
+
           window.addEventListener('message', ({ data, origin }) => {
+            log('received message: ' + data + ' from ' + origin);
             if (data !== 'authorizing:github') return;
-            window.opener?.postMessage('${msg}', origin);
+            log('sending token to opener at origin: ' + origin);
+            window.opener.postMessage('${msg}', origin);
+            log('token sent!');
           });
-          window.opener?.postMessage('authorizing:github', '*');
+
+          log('sending authorizing:github to opener...');
+          window.opener.postMessage('authorizing:github', '*');
+          log('sent. waiting for CMS response...');
         })();
       </script></body></html>`,
       { headers: { 'Content-Type': 'text/html' } }
