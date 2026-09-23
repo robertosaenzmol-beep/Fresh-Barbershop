@@ -48,27 +48,19 @@ export const GET: APIRoute = async ({ request }) => {
       token: data.access_token,
     });
 
+    // Mirror the exact script from sveltia-cms-auth (official authenticator)
+    const msg = `authorization:github:success:${content}`;
+
     return new Response(
       `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><script>
-        (function() {
-          var content = ${content};
-          var provider = "github";
-          var msg = "authorization:" + provider + ":success:" + JSON.stringify(content);
-
-          // Listen for CMS sending "authorizing:{provider}"
-          window.addEventListener("message", function(e) {
-            if (typeof e.data !== "string") return;
-            if (e.data === "authorizing:" + provider) {
-              e.source.postMessage(msg, e.origin);
-            }
-          }, false);
-
-          // Notify the opener we are ready so it (re)sends "authorizing:{provider}"
-          if (window.opener) {
-            window.opener.postMessage("authorizing:" + provider, "*");
-          }
+        (() => {
+          window.addEventListener('message', ({ data, origin }) => {
+            if (data !== 'authorizing:github') return;
+            window.opener?.postMessage('${msg}', origin);
+          });
+          window.opener?.postMessage('authorizing:github', '*');
         })();
-      </script><p style="font-family:system-ui;color:#666;text-align:center;margin-top:40px;">Autenticando...</p></body></html>`,
+      </script></body></html>`,
       { headers: { 'Content-Type': 'text/html' } }
     );
   } catch (err) {
