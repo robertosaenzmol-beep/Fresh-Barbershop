@@ -2,8 +2,6 @@ backend:
   name: github
   repo: robertosaenzmol-beep/Fresh-Barbershop
   branch: main
-  base_url: https://freshbarbershop.es
-  auth_endpoint: api/auth
 
 media_folder: public/images/blog
 public_folder: /images/blog
