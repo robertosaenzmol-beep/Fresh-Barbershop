@@ -49,20 +49,26 @@ export const GET: APIRoute = async ({ request }) => {
     });
 
     return new Response(
-      `<!DOCTYPE html><html><body><script>
+      `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><script>
         (function() {
           var content = ${content};
           var provider = "github";
+          var msg = "authorization:" + provider + ":success:" + JSON.stringify(content);
 
+          // Listen for CMS sending "authorizing:{provider}"
           window.addEventListener("message", function(e) {
             if (typeof e.data !== "string") return;
             if (e.data === "authorizing:" + provider) {
-              var msg = "authorization:" + provider + ":success:" + JSON.stringify(content);
               e.source.postMessage(msg, e.origin);
             }
           }, false);
+
+          // Notify the opener we are ready so it (re)sends "authorizing:{provider}"
+          if (window.opener) {
+            window.opener.postMessage("authorizing:" + provider, "*");
+          }
         })();
-      </script><p style="font-family:system-ui;color:#666;text-align:center;margin-top:40px;">Autenticando…</p></body></html>`,
+      </script><p style="font-family:system-ui;color:#666;text-align:center;margin-top:40px;">Autenticando...</p></body></html>`,
       { headers: { 'Content-Type': 'text/html' } }
     );
   } catch (err) {
