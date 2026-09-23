@@ -51,31 +51,21 @@ export const GET: APIRoute = async ({ request }) => {
     const msg = `authorization:github:success:${content}`;
 
     return new Response(
-      `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
-      <pre id="log" style="font-family:system-ui;font-size:14px;padding:20px;"></pre>
-      <script>
+      `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><script>
         (() => {
-          const log = (t) => { document.getElementById('log').textContent += t + '\\n'; };
+          if (!window.opener) return;
+          var msg = '${msg}';
 
-          log('window.opener: ' + (window.opener ? 'EXISTS' : 'NULL'));
-          log('message to send: ${msg.replace(/'/g, "\\'")}');
+          // Send token directly to opener
+          window.opener.postMessage(msg, '*');
 
-          if (!window.opener) {
-            log('ERROR: window.opener is null — browser killed the reference during cross-origin redirect.');
-            return;
-          }
-
+          // Also handle the handshake protocol as backup
           window.addEventListener('message', ({ data, origin }) => {
-            log('received message: ' + data + ' from ' + origin);
-            if (data !== 'authorizing:github') return;
-            log('sending token to opener at origin: ' + origin);
-            window.opener.postMessage('${msg}', origin);
-            log('token sent!');
+            if (data === 'authorizing:github') {
+              window.opener.postMessage(msg, origin);
+            }
           });
-
-          log('sending authorizing:github to opener...');
           window.opener.postMessage('authorizing:github', '*');
-          log('sent. waiting for CMS response...');
         })();
       </script></body></html>`,
       { headers: { 'Content-Type': 'text/html' } }
