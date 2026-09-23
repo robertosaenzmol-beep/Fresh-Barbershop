@@ -40,39 +40,27 @@ export const GET: APIRoute = async ({ request }) => {
       );
     }
 
-    const messageContent = JSON.stringify({
-      token: data.access_token,
+    // Build the response matching Sveltia CMS Authenticator protocol:
+    // The CMS (opener) sends "authorizing:{provider}" to this popup,
+    // and this popup responds with "authorization:{provider}:success:{json}"
+    const content = JSON.stringify({
       provider: 'github',
+      token: data.access_token,
     });
 
     return new Response(
       `<!DOCTYPE html><html><body><script>
         (function() {
-          var content = ${messageContent};
-          var msg = "authorization:github:success:" + JSON.stringify(content);
-          var sent = false;
+          var content = ${content};
+          var provider = "github";
 
-          function sendToOpener() {
-            if (sent) return;
-            if (window.opener) {
-              sent = true;
-              window.opener.postMessage(msg, "*");
-              setTimeout(function() { window.close(); }, 250);
-            }
-          }
-
-          // Try sending immediately
-          sendToOpener();
-
-          // Also listen for handshake from opener as fallback
           window.addEventListener("message", function(e) {
-            sendToOpener();
+            if (typeof e.data !== "string") return;
+            if (e.data === "authorizing:" + provider) {
+              var msg = "authorization:" + provider + ":success:" + JSON.stringify(content);
+              e.source.postMessage(msg, e.origin);
+            }
           }, false);
-
-          // Notify opener we are ready
-          if (window.opener) {
-            window.opener.postMessage("authorizing:github", "*");
-          }
         })();
       </script><p style="font-family:system-ui;color:#666;text-align:center;margin-top:40px;">Autenticando…</p></body></html>`,
       { headers: { 'Content-Type': 'text/html' } }
