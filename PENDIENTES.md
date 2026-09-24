@@ -58,6 +58,30 @@
 - [x] ~~Rutas de imágenes rotas (`/fondoFresh.png` en CSS)~~ — Corregidas a `/images/`.
 - [x] ~~Diseño: animaciones y micro-interacciones~~ — Hero Ken Burns, button feedback, review card hover, map color reveal, footer underline, cookie slide-up, ::selection, focus-visible.
 
+## Auditoría sept 2026 — Pendiente (requiere acceso o acción manual)
+
+- [ ] **Unificar host www vs no-www en Vercel** — En Vercel → Settings → Domains, configurar `freshbarbershop.es` como dominio primario y que `www.freshbarbershop.es` redirija 301 al sin www. Hoy Google indexa ambas versiones y reparte autoridad.
+
+- [ ] **Pedir acceso de gestor al Google Business Profile** — El canal que más clientes trae (Maps) no está gestionado. Pedir al dueño acceso de gestor. Optimizar: servicios, fotos semanales, enlace de reserva, categorías, UTM en el enlace web.
+
+- [ ] **Pedir reservas de Booksy de agosto y septiembre** — Línea base imprescindible para medir si la web genera negocio. Preguntar al dueño cuántas reservas hubo y cuántas fueron con origen web (`#ba_s=seo`).
+
+- [ ] **UTMs en Instagram, GBP y Booksy** — `?utm_source=instagram&utm_medium=bio` en la bio de IG, UTM en el enlace web de GBP, etc. Destapa el tráfico que hoy aparece como Direct.
+
+- [ ] **Marcar `llamada_telefono` y `como_llegar` como eventos clave en GA4** — Los eventos ya se envían (añadidos en esta actualización). Entrar en GA4 → Admin → Eventos → marcarlos como "evento clave".
+
+- [ ] **Filtro de tráfico interno en GA4** — GA4 → Admin → Data Streams → filtro de IP interna. Excluir tu IP y la del dueño para no contaminar los datos.
+
+- [ ] **Consent Mode v2** — Añadir Consent Mode básico para que GA4 modele el tráfico de usuarios que rechazan cookies. Hoy son invisibles.
+
+## Auditoría sept 2026 — Resuelto
+
+- [x] ~~Quitar `aggregateRating` y `review` del JSON-LD~~ — Eliminados. Riesgo de acción manual por reseñas autoatribuidas en schema de LocalBusiness.
+- [x] ~~Añadir H1 real en la home~~ — `<h1>Barbería en Alcobendas.</h1>` en el hero.
+- [x] ~~noindex en páginas legales y /admin~~ — `<meta name="robots" content="noindex, nofollow">` en aviso legal, privacidad, cookies y admin/index.html. Eliminadas del sitemap.
+- [x] ~~Eventos GA4 para teléfono y "cómo llegar"~~ — `llamada_telefono` y `como_llegar` en todos los enlaces de teléfono y direcciones.
+- [x] ~~Política de trailing slash~~ — `trailingSlash: 'always'` en astro.config.mjs para URLs consistentes.
+
 ---
 
-*Última revisión: 8 septiembre 2026*
+*Última revisión: 24 septiembre 2026*

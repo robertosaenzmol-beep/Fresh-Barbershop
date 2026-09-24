@@ -5,4 +5,5 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   site: 'https://freshbarbershop.es',
+  trailingSlash: 'always',
 });

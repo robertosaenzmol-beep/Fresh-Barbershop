@@ -8,9 +8,6 @@ export async function GET() {
   const staticPages = [
     { loc: '/', changefreq: 'monthly', priority: '1.0' },
     { loc: '/blog/', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/aviso-legal/', changefreq: 'yearly', priority: '0.2' },
-    { loc: '/politica-de-privacidad/', changefreq: 'yearly', priority: '0.2' },
-    { loc: '/politica-de-cookies/', changefreq: 'yearly', priority: '0.2' },
   ];
 
   const blogPages = posts.map((post) => ({

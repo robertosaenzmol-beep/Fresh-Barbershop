@@ -9,6 +9,7 @@ interface Props {
   preloadImage?: string;
   articleDate?: string;
   articleCategory?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   preloadImage,
   articleDate,
   articleCategory,
+  noindex = false,
 } = Astro.props;
 
 const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
@@ -56,44 +58,6 @@ const localBusinessSchema = {
       dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
       opens: '10:00',
       closes: '20:30',
-    },
-  ],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.98',
-    reviewCount: '309',
-    bestRating: '5',
-  },
-  review: [
-    {
-      '@type': 'Review',
-      author: { '@type': 'Person', name: 'Fran Sevilla' },
-      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'Una barbería excelente, con grandes profesionales que siempre se adaptan a tus gustos y cortes. El trato es muy bueno. El local es muy amplio y luminoso.',
-    },
-    {
-      '@type': 'Review',
-      author: { '@type': 'Person', name: 'Fernando Cerezo' },
-      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'Barbería de 10, grande, limpia, elegante y el trato lo mejor. Miguel un crack. Super recomendable.',
-    },
-    {
-      '@type': 'Review',
-      author: { '@type': 'Person', name: 'Javier López' },
-      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'Fui por primera vez y repetiré seguro. Me hicieron un degradado perfecto. El local es espectacular, muy limpio y moderno.',
-    },
-    {
-      '@type': 'Review',
-      author: { '@type': 'Person', name: 'Alejandro Ruiz' },
-      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'La mejor barbería de la zona sin duda. Profesionalidad, limpieza y un trato inmejorable. 100% recomendable.',
-    },
-    {
-      '@type': 'Review',
-      author: { '@type': 'Person', name: 'Daniel Martín' },
-      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'Llevo yendo más de un año y siempre salgo contento. El ambiente es muy bueno y los chicos son unos profesionales.',
     },
   ],
   hasOfferCatalog: {
@@ -237,6 +201,7 @@ const localBusinessSchema = {
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
 
   <!-- Open Graph -->
   <meta property="og:type"        content={articleDate ? 'article' : 'website'} />
@@ -314,7 +279,7 @@ const localBusinessSchema = {
       <a href={BOOKSY} class="footer-link" target="_blank" rel="noopener nofollow" onclick="gtag('event', 'reserva_booksy', { 'metodo': 'boton_web' })">Booksy</a>
       <a href="https://www.instagram.com/freshbarbershop_mad/" class="footer-link" target="_blank" rel="noopener nofollow">Instagram</a>
       <a href="https://www.instagram.com/saimonguedez_19" class="footer-link" target="_blank" rel="noopener nofollow">Simón</a>
-      <a href="tel:+34642701740" class="footer-link">642 70 17 40</a>
+      <a href="tel:+34642701740" class="footer-link" onclick="gtag('event', 'llamada_telefono', { 'metodo': 'footer' })">642 70 17 40</a>
     </div>
     <div class="footer-legal">
       <a href="/aviso-legal" class="footer-link footer-link--legal">Aviso legal</a>

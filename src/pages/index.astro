@@ -50,10 +50,10 @@ const reviews = [
       />
 
       <div class="hero-bottom">
-        <p class="hero-desc">
-          Tu barbería en Alcobendas.<br />
+        <h1 class="hero-desc">
+          Barbería en Alcobendas.<br />
           Degradados, cortes y barba hechos<br />con tiempo, con criterio y con ganas.
-        </p>
+        </h1>
         <div class="hero-cta-wrap">
           <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--white btn-ghost--lg" onclick="gtag('event', 'reserva_booksy', { 'metodo': 'boton_web' })">
             Pedir cita →
@@ -172,7 +172,7 @@ const reviews = [
     <div class="map-address reveal">
       <span>C. de la Marquesa Viuda de Aldama, 40</span>
       <span>28100 Alcobendas, Madrid</span>
-      <a href="https://maps.app.goo.gl/h253SwzqPJnPNuEL6" target="_blank" rel="noopener nofollow" class="map-directions">Cómo llegar ↗</a>
+      <a href="https://maps.app.goo.gl/h253SwzqPJnPNuEL6" target="_blank" rel="noopener nofollow" class="map-directions" onclick="gtag('event', 'como_llegar', { 'metodo': 'mapa' })">Cómo llegar ↗</a>
     </div>
   </section>
 
@@ -416,13 +416,13 @@ const reviews = [
 
       <div class="info-col">
         <div class="info-label">Dónde estamos</div>
-        <a href="https://share.google/6tSTJGZo5cR8UOMvf" target="_blank" rel="noopener nofollow" class="contact-address" style="display:block; text-decoration:none;">
+        <a href="https://share.google/6tSTJGZo5cR8UOMvf" target="_blank" rel="noopener nofollow" class="contact-address" style="display:block; text-decoration:none;" onclick="gtag('event', 'como_llegar', { 'metodo': 'contacto' })">
           C. de la Marquesa<br />Viuda de Aldama, 40<br />28100 Alcobendas, Madrid ↗
         </a>
         <div class="contact-rows">
           <div class="contact-row">
             <span class="contact-row-label">Teléfono</span>
-            <span class="contact-row-value"><a href="tel:+34642701740">642 70 17 40</a></span>
+            <span class="contact-row-value"><a href="tel:+34642701740" onclick="gtag('event', 'llamada_telefono', { 'metodo': 'contacto' })">642 70 17 40</a></span>
           </div>
           <div class="contact-row">
             <span class="contact-row-label">Instagram</span>
