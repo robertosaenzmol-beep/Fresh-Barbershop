@@ -1,0 +1,167 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Confirmar visita — Fresh Barbershop" noindex={true}>
+  <main class="auth-page">
+    <!-- Loading -->
+    <div id="confirm-loading" class="auth-card" style="text-align:center;padding:var(--s48);">
+      <p>Cargando datos de la visita...</p>
+    </div>
+
+    <!-- Error -->
+    <div id="confirm-error" class="auth-card" hidden style="text-align:center;padding:var(--s48);">
+      <div class="confirm-icon confirm-icon--error">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <h1 class="auth-title" style="margin-top:var(--s16);">Código no válido</h1>
+      <p id="error-message" style="color:var(--mid);margin-top:var(--s8);">Este código QR ya ha sido utilizado o no existe.</p>
+    </div>
+
+    <!-- Confirm form -->
+    <div id="confirm-card" class="confirm-container" hidden>
+      <div class="confirm-client-card">
+        <div class="confirm-icon confirm-icon--pending">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+        </div>
+        <h1 class="confirm-title">Confirmar visita</h1>
+
+        <div class="confirm-details">
+          <div class="confirm-row">
+            <span class="confirm-label">Cliente</span>
+            <span class="confirm-value" id="client-name"></span>
+          </div>
+          <div class="confirm-row">
+            <span class="confirm-label">Email</span>
+            <span class="confirm-value" id="client-email"></span>
+          </div>
+          <div class="confirm-row">
+            <span class="confirm-label">Visita nº</span>
+            <span class="confirm-value" id="visit-number"></span>
+          </div>
+          <div class="confirm-row" id="free-cut-row" hidden>
+            <span class="confirm-badge">CORTE GRATIS</span>
+          </div>
+        </div>
+
+        <button class="auth-submit confirm-btn" id="confirm-btn">
+          Confirmar visita
+        </button>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div id="confirm-success" class="auth-card" hidden style="text-align:center;padding:var(--s48);">
+      <div class="confirm-icon confirm-icon--success">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h1 class="auth-title" style="margin-top:var(--s16);">¡Visita registrada!</h1>
+      <p id="success-message" style="color:var(--mid);margin-top:var(--s8);"></p>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { db } from '../lib/firebase';
+  import {
+    doc, getDoc, updateDoc, addDoc, collection, getDocs,
+    query, where, orderBy, serverTimestamp
+  } from 'firebase/firestore';
+
+  const loadingEl = document.getElementById('confirm-loading')!;
+  const errorEl = document.getElementById('confirm-error')!;
+  const cardEl = document.getElementById('confirm-card')!;
+  const successEl = document.getElementById('confirm-success')!;
+
+  async function init() {
+    const params = new URLSearchParams(window.location.search);
+    const tokenId = params.get('token');
+
+    if (!tokenId) {
+      showError('No se proporcionó un código de visita.');
+      return;
+    }
+
+    try {
+      const tokenRef = doc(db, 'visitTokens', tokenId);
+      const tokenSnap = await getDoc(tokenRef);
+
+      if (!tokenSnap.exists()) {
+        showError('Este código QR no existe.');
+        return;
+      }
+
+      const tokenData = tokenSnap.data();
+
+      if (tokenData.used) {
+        showError('Este código QR ya ha sido utilizado.');
+        return;
+      }
+
+      // Count existing visits for this user
+      const visitsQuery = query(
+        collection(db, 'visits'),
+        where('userId', '==', tokenData.userId)
+      );
+      const visitsSnap = await getDocs(visitsQuery);
+      const totalVisits = visitsSnap.size;
+      const nextVisit = (totalVisits % 10) + 1;
+      const isFreeCut = nextVisit === 10;
+
+      // Show confirmation card
+      loadingEl.hidden = true;
+      cardEl.hidden = false;
+
+      document.getElementById('client-name')!.textContent = tokenData.userName || 'Cliente';
+      document.getElementById('client-email')!.textContent = tokenData.userEmail || '';
+      document.getElementById('visit-number')!.textContent = `${nextVisit} de 10`;
+
+      if (isFreeCut) {
+        document.getElementById('free-cut-row')!.hidden = false;
+      }
+
+      // Confirm button
+      document.getElementById('confirm-btn')!.addEventListener('click', async () => {
+        const btn = document.getElementById('confirm-btn') as HTMLButtonElement;
+        btn.disabled = true;
+        btn.textContent = 'Registrando...';
+
+        try {
+          // Create visit record
+          await addDoc(collection(db, 'visits'), {
+            userId: tokenData.userId,
+            visitNumber: nextVisit,
+            isFreecut: isFreeCut,
+            timestamp: serverTimestamp(),
+          });
+
+          // Mark token as used
+          await updateDoc(tokenRef, { used: true });
+
+          // Show success
+          cardEl.hidden = true;
+          successEl.hidden = false;
+
+          const msg = isFreeCut
+            ? `¡${tokenData.userName} ha canjeado su corte GRATIS! Tarjeta completada.`
+            : `Visita ${nextVisit}/10 registrada para ${tokenData.userName}.`;
+          document.getElementById('success-message')!.textContent = msg;
+        } catch (err) {
+          alert('Error al registrar la visita. Inténtalo de nuevo.');
+          btn.disabled = false;
+          btn.textContent = 'Confirmar visita';
+        }
+      });
+    } catch (err) {
+      showError('Error al cargar los datos. Inténtalo de nuevo.');
+    }
+  }
+
+  function showError(msg: string) {
+    loadingEl.hidden = true;
+    errorEl.hidden = false;
+    document.getElementById('error-message')!.textContent = msg;
+  }
+
+  init();
+</script>

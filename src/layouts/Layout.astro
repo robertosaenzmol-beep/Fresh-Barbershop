@@ -265,9 +265,14 @@ const localBusinessSchema = {
       <img src="/images/logo-fresh-barbershop.webp" alt="Fresh Barbershop" class="nav-logo" width="800" height="451" />
     </a>
     <span class="nav-location">Alcobendas · Madrid</span>
-    <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--light" onclick="gtag('event', 'reserva_booksy', { 'metodo': 'boton_web' })">
-      Reservar →
-    </a>
+    <div class="nav-actions">
+      <a href="/cuenta/" class="nav-profile" aria-label="Mi cuenta">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <a href={BOOKSY} target="_blank" rel="noopener nofollow" class="btn-ghost btn-ghost--light" onclick="gtag('event', 'reserva_booksy', { 'metodo': 'boton_web' })">
+        Reservar →
+      </a>
+    </div>
   </nav>
 
   <slot />

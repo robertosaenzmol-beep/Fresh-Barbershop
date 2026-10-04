@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Iniciar sesión — Fresh Barbershop" noindex={true}>
+  <main class="auth-page">
+    <div class="auth-card">
+      <div class="auth-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h1 class="auth-title">Iniciar sesión</h1>
+      <form id="login-form" class="auth-form">
+        <label class="auth-label">
+          Email
+          <input type="email" id="login-email" required class="auth-input" autocomplete="email" />
+        </label>
+        <label class="auth-label">
+          Contraseña
+          <input type="password" id="login-password" required class="auth-input" autocomplete="current-password" />
+        </label>
+        <p id="login-error" class="auth-error" hidden></p>
+        <button type="submit" class="auth-submit" id="login-btn">Entrar</button>
+      </form>
+      <p class="auth-switch">
+        ¿No tienes cuenta? <a href="/cuenta/registro/">Regístrate</a>
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { auth } from '../../lib/firebase';
+  import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+
+  // If already logged in, redirect
+  onAuthStateChanged(auth, (user) => {
+    if (user) window.location.href = '/cuenta/';
+  });
+
+  const form = document.getElementById('login-form') as HTMLFormElement;
+  const errorEl = document.getElementById('login-error') as HTMLParagraphElement;
+  const btn = document.getElementById('login-btn') as HTMLButtonElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Entrando...';
+
+    const email = (document.getElementById('login-email') as HTMLInputElement).value;
+    const password = (document.getElementById('login-password') as HTMLInputElement).value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = '/cuenta/';
+    } catch (err: any) {
+      errorEl.hidden = false;
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+        errorEl.textContent = 'Email o contraseña incorrectos';
+      } else {
+        errorEl.textContent = 'Error al iniciar sesión. Inténtalo de nuevo.';
+      }
+      btn.disabled = false;
+      btn.textContent = 'Entrar';
+    }
+  });
+</script>

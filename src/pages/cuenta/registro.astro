@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Crear cuenta — Fresh Barbershop" noindex={true}>
+  <main class="auth-page">
+    <div class="auth-card">
+      <div class="auth-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      </div>
+      <h1 class="auth-title">Crear cuenta</h1>
+      <form id="register-form" class="auth-form">
+        <label class="auth-label">
+          Nombre
+          <input type="text" id="reg-name" required class="auth-input" autocomplete="name" />
+        </label>
+        <label class="auth-label">
+          Email
+          <input type="email" id="reg-email" required class="auth-input" autocomplete="email" />
+        </label>
+        <label class="auth-label">
+          Contraseña
+          <input type="password" id="reg-password" required minlength="6" class="auth-input" autocomplete="new-password" />
+          <span class="auth-hint">Mínimo 6 caracteres</span>
+        </label>
+        <p id="reg-error" class="auth-error" hidden></p>
+        <button type="submit" class="auth-submit" id="reg-btn">Crear cuenta</button>
+      </form>
+      <p class="auth-switch">
+        ¿Ya tienes cuenta? <a href="/cuenta/login/">Inicia sesión</a>
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { auth, db } from '../../lib/firebase';
+  import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+  import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) window.location.href = '/cuenta/';
+  });
+
+  const form = document.getElementById('register-form') as HTMLFormElement;
+  const errorEl = document.getElementById('reg-error') as HTMLParagraphElement;
+  const btn = document.getElementById('reg-btn') as HTMLButtonElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Creando cuenta...';
+
+    const name = (document.getElementById('reg-name') as HTMLInputElement).value.trim();
+    const email = (document.getElementById('reg-email') as HTMLInputElement).value;
+    const password = (document.getElementById('reg-password') as HTMLInputElement).value;
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        name,
+        email,
+        createdAt: serverTimestamp(),
+      });
+      window.location.href = '/cuenta/';
+    } catch (err: any) {
+      errorEl.hidden = false;
+      if (err.code === 'auth/email-already-in-use') {
+        errorEl.textContent = 'Ya existe una cuenta con ese email';
+      } else if (err.code === 'auth/weak-password') {
+        errorEl.textContent = 'La contraseña debe tener al menos 6 caracteres';
+      } else {
+        errorEl.textContent = 'Error al crear la cuenta. Inténtalo de nuevo.';
+      }
+      btn.disabled = false;
+      btn.textContent = 'Crear cuenta';
+    }
+  });
+</script>
