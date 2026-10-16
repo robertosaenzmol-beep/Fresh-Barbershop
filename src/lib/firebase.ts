@@ -2,15 +2,14 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// TODO: Replace with your Firebase project config
-// Firebase Console > Project Settings > Your apps > Web app
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyDPVII6t18j9uIE2-r4C5xYmXfl1hNMzVw",
+  authDomain: "fresh-barber-98fa8.firebaseapp.com",
+  projectId: "fresh-barber-98fa8",
+  storageBucket: "fresh-barber-98fa8.firebasestorage.app",
+  messagingSenderId: "377368698474",
+  appId: "1:377368698474:web:d0a38fe261243ff1db7413",
+  measurementId: "G-NQRHJEBJ1M",
 };
 
 const app = initializeApp(firebaseConfig);

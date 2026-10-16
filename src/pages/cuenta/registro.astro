@@ -23,6 +23,10 @@ import Layout from '../../layouts/Layout.astro';
           <input type="password" id="reg-password" required minlength="6" class="auth-input" autocomplete="new-password" />
           <span class="auth-hint">Mínimo 6 caracteres</span>
         </label>
+        <label class="auth-checkbox-label">
+          <input type="checkbox" id="reg-privacy" required class="auth-checkbox" />
+          <span>He leído y acepto la <a href="/politica-de-privacidad/" target="_blank">política de privacidad</a></span>
+        </label>
         <p id="reg-error" class="auth-error" hidden></p>
         <button type="submit" class="auth-submit" id="reg-btn">Crear cuenta</button>
       </form>
@@ -61,6 +65,7 @@ import Layout from '../../layouts/Layout.astro';
       await setDoc(doc(db, 'users', cred.user.uid), {
         name,
         email,
+        privacyConsentAt: serverTimestamp(),
         createdAt: serverTimestamp(),
       });
       window.location.href = '/cuenta/';

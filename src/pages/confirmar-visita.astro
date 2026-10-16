@@ -18,6 +18,17 @@ import Layout from '../layouts/Layout.astro';
       <p id="error-message" style="color:var(--mid);margin-top:var(--s8);">Este código QR ya ha sido utilizado o no existe.</p>
     </div>
 
+    <!-- PIN gate -->
+    <div id="pin-gate" class="auth-card" hidden style="text-align:center;padding:var(--s32);">
+      <div class="confirm-icon confirm-icon--pending" style="margin:0 auto var(--s16);">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h1 class="auth-title">Acceso del barbero</h1>
+      <p style="color:var(--mid);font-size:var(--t-sm);margin:var(--s8) 0 var(--s16);">Introduce el PIN para confirmar la visita</p>
+      <input type="password" id="pin-input" class="auth-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="PIN" autocomplete="off" style="text-align:center;font-size:var(--t-sub);letter-spacing:0.3em;max-width:160px;margin:0 auto;" />
+      <p id="pin-error" class="auth-error" hidden style="margin-top:var(--s8);">PIN incorrecto</p>
+    </div>
+
     <!-- Confirm form -->
     <div id="confirm-card" class="confirm-container" hidden>
       <div class="confirm-client-card">
@@ -65,11 +76,14 @@ import Layout from '../layouts/Layout.astro';
   import { db } from '../lib/firebase';
   import {
     doc, getDoc, updateDoc, addDoc, collection, getDocs,
-    query, where, orderBy, serverTimestamp
+    query, where, serverTimestamp
   } from 'firebase/firestore';
+
+  const OWNER_PIN = '5000';
 
   const loadingEl = document.getElementById('confirm-loading')!;
   const errorEl = document.getElementById('confirm-error')!;
+  const pinGate = document.getElementById('pin-gate')!;
   const cardEl = document.getElementById('confirm-card')!;
   const successEl = document.getElementById('confirm-success')!;
 
@@ -108,10 +122,34 @@ import Layout from '../layouts/Layout.astro';
       const nextVisit = (totalVisits % 10) + 1;
       const isFreeCut = nextVisit === 10;
 
-      // Show confirmation card
+      // Show PIN gate
       loadingEl.hidden = true;
-      cardEl.hidden = false;
+      pinGate.hidden = false;
 
+      const pinInput = document.getElementById('pin-input') as HTMLInputElement;
+      const pinError = document.getElementById('pin-error')!;
+      let attempts = 0;
+
+      pinInput.addEventListener('input', () => {
+        pinError.hidden = true;
+        if (pinInput.value.length === 4) {
+          if (pinInput.value === OWNER_PIN) {
+            // PIN correct — show confirm card
+            pinGate.hidden = true;
+            cardEl.hidden = false;
+          } else {
+            attempts++;
+            pinError.hidden = false;
+            pinInput.value = '';
+            if (attempts >= 5) {
+              showError('Demasiados intentos. Recarga la página.');
+              pinGate.hidden = true;
+            }
+          }
+        }
+      });
+
+      // Fill confirm card details
       document.getElementById('client-name')!.textContent = tokenData.userName || 'Cliente';
       document.getElementById('client-email')!.textContent = tokenData.userEmail || '';
       document.getElementById('visit-number')!.textContent = `${nextVisit} de 10`;
@@ -127,7 +165,6 @@ import Layout from '../layouts/Layout.astro';
         btn.textContent = 'Registrando...';
 
         try {
-          // Create visit record
           await addDoc(collection(db, 'visits'), {
             userId: tokenData.userId,
             visitNumber: nextVisit,
@@ -135,10 +172,8 @@ import Layout from '../layouts/Layout.astro';
             timestamp: serverTimestamp(),
           });
 
-          // Mark token as used
           await updateDoc(tokenRef, { used: true });
 
-          // Show success
           cardEl.hidden = true;
           successEl.hidden = false;
 

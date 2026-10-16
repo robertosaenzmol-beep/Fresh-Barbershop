@@ -1467,6 +1467,28 @@ a { text-decoration: none; color: inherit; }
   text-decoration: underline;
 }
 .auth-switch a:hover { color: var(--loyalty-blue-light); }
+.auth-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s8);
+  font-size: var(--t-sm);
+  color: var(--ink);
+  cursor: pointer;
+  line-height: 1.4;
+}
+.auth-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--loyalty-blue);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.auth-checkbox-label a {
+  color: var(--loyalty-blue);
+  text-decoration: underline;
+}
+.auth-checkbox-label a:hover { color: var(--loyalty-blue-light); }
 
 /* Profile page */
 .profile-container {
@@ -1704,6 +1726,9 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   justify-content: center;
   padding: var(--gutter);
+}
+.qr-modal[hidden] {
+  display: none;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
@@ -1815,6 +1840,75 @@ a { text-decoration: none; color: inherit; }
   padding: 4px 10px;
   border-radius: 20px;
   letter-spacing: 0.04em;
+}
+
+/* Data management (RGPD) */
+.data-section {
+  background: var(--white);
+  border-radius: 12px;
+  padding: var(--s24);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+.data-section-title {
+  font-family: var(--font-display);
+  font-size: var(--t-sub);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--s8);
+}
+.data-section-desc {
+  font-size: var(--t-sm);
+  color: var(--mid);
+  margin-bottom: var(--s20);
+  line-height: 1.5;
+}
+.data-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--s8);
+  width: 100%;
+  padding: var(--s12) var(--s16);
+  border-radius: 8px;
+  font-size: var(--t-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid;
+  margin-bottom: var(--s8);
+}
+.data-btn--download {
+  background: var(--paper);
+  color: var(--loyalty-blue);
+  border-color: rgba(30,58,95,0.15);
+}
+.data-btn--download:hover {
+  background: rgba(30,58,95,0.06);
+  border-color: var(--loyalty-blue);
+}
+.data-btn--delete {
+  background: var(--white);
+  color: var(--loyalty-red);
+  border-color: rgba(196,30,58,0.15);
+}
+.data-btn--delete:hover {
+  background: #fef2f2;
+  border-color: var(--loyalty-red);
+}
+.data-section-legal {
+  margin-top: var(--s16);
+  padding-top: var(--s16);
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-caption);
+  color: var(--mid);
+  text-align: center;
+}
+.data-section-legal a {
+  color: var(--mid);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.data-section-legal a:hover {
+  color: var(--ink);
 }
 
 /* Confirmation page */

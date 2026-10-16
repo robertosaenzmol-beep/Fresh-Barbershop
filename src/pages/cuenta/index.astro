@@ -64,6 +64,50 @@ import Layout from '../../layouts/Layout.astro';
           <p class="history-empty" id="history-empty">Aún no tienes visitas registradas</p>
         </div>
       </div>
+
+      <!-- Data Management (RGPD) -->
+      <div class="data-section">
+        <h2 class="data-section-title">Mis datos personales</h2>
+        <p class="data-section-desc">Gestiona tus datos según tus derechos reconocidos por el <strong>RGPD</strong> y la <strong>LOPD-GDD</strong>.</p>
+
+        <button class="data-btn data-btn--download" id="download-data-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar mis datos
+        </button>
+
+        <button class="data-btn data-btn--delete" id="delete-account-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          Eliminar mi cuenta y datos
+        </button>
+
+        <p class="data-section-legal">
+          <a href="/politica-de-privacidad/">Política de privacidad</a> ·
+          <a href="/aviso-legal/">Aviso legal</a> ·
+          <a href="/politica-de-cookies/">Política de cookies</a>
+        </p>
+      </div>
+
+      <!-- Delete Account Modal -->
+      <div class="qr-modal" id="delete-modal" hidden>
+        <div class="qr-modal-content">
+          <button class="qr-modal-close" id="delete-modal-close" aria-label="Cerrar">&times;</button>
+          <div class="confirm-icon confirm-icon--error" style="margin:0 auto var(--s16);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h2 class="qr-modal-title" style="color:var(--loyalty-red);">Eliminar cuenta</h2>
+          <p class="qr-modal-desc">Esta acción es <strong>irreversible</strong>. Se eliminarán permanentemente:</p>
+          <ul style="text-align:left;font-size:var(--t-sm);color:var(--mid);margin:var(--s12) 0;padding-left:var(--s20);">
+            <li>Tu cuenta de usuario</li>
+            <li>Tu historial de visitas</li>
+            <li>Tus sellos y tarjetas completadas</li>
+          </ul>
+          <p class="qr-modal-desc">Escribe <strong>ELIMINAR</strong> para confirmar:</p>
+          <input type="text" id="delete-confirm-input" class="auth-input" style="margin:var(--s12) 0;" placeholder="Escribe ELIMINAR" autocomplete="off" />
+          <button class="auth-submit" id="delete-confirm-btn" style="background:var(--loyalty-red);width:100%;" disabled>
+            Eliminar mi cuenta permanentemente
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- QR Modal -->
@@ -80,14 +124,15 @@ import Layout from '../../layouts/Layout.astro';
 </Layout>
 
 <script>
-  import { auth, db } from '../../lib/firebase';
-  import { onAuthStateChanged, signOut } from 'firebase/auth';
-  import {
-    collection, addDoc, getDocs, getDoc, doc, query, where, orderBy, serverTimestamp, Timestamp
-  } from 'firebase/firestore';
   import QRCode from 'qrcode';
+  import { auth, db } from '../../lib/firebase';
+  import { onAuthStateChanged, signOut, deleteUser } from 'firebase/auth';
+  import {
+    collection, addDoc, getDocs, getDoc, doc, query, where, orderBy, serverTimestamp, Timestamp,
+    deleteDoc
+  } from 'firebase/firestore';
 
-  const SITE = 'https://freshbarbershop.es';
+  const SITE = window.location.origin;
 
   const loadingEl = document.getElementById('loading')!;
   const profileEl = document.getElementById('profile')!;
@@ -98,33 +143,35 @@ import Layout from '../../layouts/Layout.astro';
       return;
     }
 
+    try {
     loadingEl.hidden = true;
     profileEl.hidden = false;
 
-    // Load user data
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
-    const userData = userDoc.data();
+    const userDocSnap = await getDoc(doc(db, 'users', user.uid));
+    const userData = userDocSnap.data();
     const userName = userData?.name || user.email?.split('@')[0] || 'Usuario';
 
     document.getElementById('profile-name')!.textContent = userName;
     document.getElementById('profile-email')!.textContent = user.email || '';
     document.getElementById('profile-avatar')!.textContent = userName.charAt(0).toUpperCase();
 
-    // Load visits
     const visitsQuery = query(
       collection(db, 'visits'),
-      where('userId', '==', user.uid),
-      orderBy('timestamp', 'desc')
+      where('userId', '==', user.uid)
     );
     const visitsSnap = await getDocs(visitsQuery);
-    const totalVisits = visitsSnap.size;
+    // Sort client-side to avoid needing a composite index
+    const visitDocs = visitsSnap.docs.sort((a, b) => {
+      const ta = a.data().timestamp?.toMillis?.() || 0;
+      const tb = b.data().timestamp?.toMillis?.() || 0;
+      return tb - ta;
+    });
+    const totalVisits = visitDocs.length;
     const currentStamps = totalVisits % 10;
     const cardsCompleted = Math.floor(totalVisits / 10);
 
-    // Render stamps
     renderStamps(currentStamps);
 
-    // Progress text
     document.getElementById('progress-text')!.textContent = `${currentStamps} de 10 visitas`;
 
     const hintEl = document.getElementById('progress-hint')!;
@@ -137,7 +184,6 @@ import Layout from '../../layouts/Layout.astro';
       hintEl.textContent = `Te faltan ${10 - currentStamps} visitas para tu corte gratis`;
     }
 
-    // Cards completed
     if (cardsCompleted > 0) {
       const statsEl = document.getElementById('loyalty-stats')!;
       statsEl.hidden = false;
@@ -145,13 +191,12 @@ import Layout from '../../layouts/Layout.astro';
         `${cardsCompleted} corte${cardsCompleted > 1 ? 's' : ''} gratis canjeado${cardsCompleted > 1 ? 's' : ''}`;
     }
 
-    // Render visit history
     const historyList = document.getElementById('history-list')!;
     const historyEmpty = document.getElementById('history-empty')!;
 
     if (totalVisits > 0) {
       historyEmpty.hidden = true;
-      visitsSnap.forEach((visitDoc) => {
+      visitDocs.forEach((visitDoc) => {
         const visit = visitDoc.data();
         const date = visit.timestamp instanceof Timestamp
           ? visit.timestamp.toDate()
@@ -172,7 +217,6 @@ import Layout from '../../layouts/Layout.astro';
       });
     }
 
-    // Generate QR
     document.getElementById('generate-qr-btn')!.addEventListener('click', async () => {
       const btn = document.getElementById('generate-qr-btn') as HTMLButtonElement;
       btn.disabled = true;
@@ -208,7 +252,6 @@ import Layout from '../../layouts/Layout.astro';
       `;
     });
 
-    // Modal close
     document.getElementById('qr-modal-close')!.addEventListener('click', () => {
       document.getElementById('qr-modal')!.hidden = true;
     });
@@ -219,11 +262,122 @@ import Layout from '../../layouts/Layout.astro';
       }
     });
 
-    // Logout
     document.getElementById('logout-btn')!.addEventListener('click', async () => {
       await signOut(auth);
       window.location.href = '/';
     });
+
+    // Download data (RGPD portability)
+    document.getElementById('download-data-btn')!.addEventListener('click', async () => {
+      const btn = document.getElementById('download-data-btn') as HTMLButtonElement;
+      btn.disabled = true;
+      btn.textContent = 'Preparando...';
+
+      const exportData: Record<string, any> = {
+        exportDate: new Date().toISOString(),
+        user: {
+          name: userName,
+          email: user.email,
+          uid: user.uid,
+          accountCreated: userData?.createdAt?.toDate?.()?.toISOString() || 'No disponible',
+          privacyConsentAt: userData?.privacyConsentAt?.toDate?.()?.toISOString() || 'No disponible',
+        },
+        loyaltyCard: {
+          totalVisits,
+          currentStamps,
+          cardsCompleted,
+        },
+        visits: [] as any[],
+      };
+
+      visitDocs.forEach((visitDoc) => {
+        const v = visitDoc.data();
+        exportData.visits.push({
+          visitNumber: v.visitNumber,
+          isFreecut: v.isFreecut || false,
+          date: v.timestamp instanceof Timestamp ? v.timestamp.toDate().toISOString() : 'No disponible',
+        });
+      });
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `fresh-barbershop-mis-datos-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      btn.disabled = false;
+      btn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar mis datos
+      `;
+    });
+
+    // Delete account (RGPD erasure)
+    const deleteModal = document.getElementById('delete-modal')!;
+    const deleteInput = document.getElementById('delete-confirm-input') as HTMLInputElement;
+    const deleteBtn = document.getElementById('delete-confirm-btn') as HTMLButtonElement;
+
+    document.getElementById('delete-account-btn')!.addEventListener('click', () => {
+      deleteModal.hidden = false;
+      deleteInput.value = '';
+      deleteBtn.disabled = true;
+    });
+
+    document.getElementById('delete-modal-close')!.addEventListener('click', () => {
+      deleteModal.hidden = true;
+    });
+
+    deleteModal.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) deleteModal.hidden = true;
+    });
+
+    deleteInput.addEventListener('input', () => {
+      deleteBtn.disabled = deleteInput.value.trim() !== 'ELIMINAR';
+    });
+
+    deleteBtn.addEventListener('click', async () => {
+      if (deleteInput.value.trim() !== 'ELIMINAR') return;
+
+      deleteBtn.disabled = true;
+      deleteBtn.textContent = 'Eliminando...';
+
+      try {
+        // Delete visits
+        const userVisits = await getDocs(query(collection(db, 'visits'), where('userId', '==', user.uid)));
+        for (const visitDoc of userVisits.docs) {
+          await deleteDoc(visitDoc.ref);
+        }
+
+        // Delete visit tokens
+        const userTokens = await getDocs(query(collection(db, 'visitTokens'), where('userId', '==', user.uid)));
+        for (const tokenDoc of userTokens.docs) {
+          await deleteDoc(tokenDoc.ref);
+        }
+
+        // Delete user document
+        await deleteDoc(doc(db, 'users', user.uid));
+
+        // Delete Firebase Auth account
+        await deleteUser(user);
+
+        window.location.href = '/?account_deleted=1';
+      } catch (err: any) {
+        if (err.code === 'auth/requires-recent-login') {
+          alert('Por seguridad, necesitas cerrar sesión, volver a iniciar sesión y repetir la eliminación.');
+        } else {
+          alert('Error al eliminar la cuenta. Inténtalo de nuevo o contacta con freshbarbershop15@gmail.com');
+        }
+        deleteBtn.disabled = false;
+        deleteBtn.textContent = 'Eliminar mi cuenta permanentemente';
+      }
+    });
+
+    } catch (err) {
+      console.error('Error loading profile:', err);
+      loadingEl.innerHTML = '<p>Error al cargar el perfil. <a href="/cuenta/">Reintentar</a></p>';
+    }
   });
 
   function renderStamps(filled: number) {
