@@ -1,0 +1,123 @@
+---
+/* ============================================================
+   RELAUNCH BANNER — Noviembre 2026
+   Barra fina bajo el nav. Se cierra y no vuelve a salir.
+   Para relanzar otra campaña: cambia STORAGE_KEY (p. ej. 'relaunch-2027-01').
+   RELLENAR: eyebrow, title, text, ctaText, ctaHref
+============================================================ */
+const {
+  eyebrow = 'Noviembre 2026',
+  title   = '[TÍTULO DEL RELANZAMIENTO]',
+  text    = '[Frase corta con la novedad]',
+  ctaText = 'Descubrir',
+  ctaHref = '/cuenta/registro/',
+} = Astro.props;
+// Mientras el título tenga [corchetes] es borrador: solo se ve con ?banner en la URL
+const draft = title.startsWith('[');
+---
+
+<aside class="rl-banner" id="rl-banner" hidden aria-label="Novedades" data-draft={draft ? "1" : undefined}>
+  <div class="rl-inner">
+    <span class="rl-eyebrow">{eyebrow}</span>
+    <p class="rl-copy">
+      <strong class="rl-title">{title}</strong>
+      <span class="rl-text">{text}</span>
+    </p>
+    <a class="rl-cta" href={ctaHref}>{ctaText} <span aria-hidden="true">→</span></a>
+  </div>
+  <button class="rl-close" id="rl-close" aria-label="Cerrar aviso">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</aside>
+
+<style>
+  .rl-banner {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    gap: var(--s16);
+    padding: var(--s12) var(--gutter);
+    background: var(--white);
+    color: var(--ink);
+    border-bottom: 1px solid var(--hairline);
+    animation: rl-in .5s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .rl-banner[hidden] { display: none; }
+  .rl-inner {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--s20);
+    min-width: 0;
+  }
+  .rl-eyebrow {
+    flex-shrink: 0;
+    font-size: var(--t-caption);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .rl-copy {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--t-sm);
+    line-height: 1.4;
+  }
+  .rl-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin-right: var(--s8);
+  }
+  .rl-text { color: #444; }
+  .rl-cta {
+    flex-shrink: 0;
+    font-size: var(--t-sm);
+    font-weight: 600;
+    color: var(--white);
+    background: var(--ink);
+    padding: var(--s8) var(--s16);
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .rl-cta:hover { background: var(--black); }
+  .rl-cta span { display: inline-block; transition: transform .2s; }
+  .rl-cta:hover span { transform: translateX(3px); }
+  .rl-close {
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    width: 32px; height: 32px;
+    background: none; border: 0;
+    color: var(--mid);
+    cursor: pointer;
+  }
+  .rl-close:hover { color: var(--ink); }
+
+  @media (max-width: 680px) {
+    .rl-inner { flex-wrap: wrap; gap: var(--s4) var(--s12); }
+    .rl-copy { flex-basis: 100%; order: 2; }
+    .rl-text { display: block; }
+    .rl-cta { order: 3; padding: var(--s4) var(--s12); }
+    .rl-banner { align-items: flex-start; }
+  }
+  @keyframes rl-in { from { transform: translateY(-100%); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .rl-banner { animation: none; } }
+</style>
+
+<script>
+  const STORAGE_KEY = 'relaunch-2026-11-dismissed';
+  const banner = document.getElementById('rl-banner');
+  const preview = new URLSearchParams(location.search).has('banner');
+  const draft = banner?.dataset.draft === '1';
+  let dismissed = false;
+  try { dismissed = localStorage.getItem(STORAGE_KEY) === '1'; } catch {}
+  if (banner && (preview || (!draft && !dismissed))) {
+    banner.hidden = false;
+    document.getElementById('rl-close')?.addEventListener('click', () => {
+      banner.hidden = true;
+      try { localStorage.setItem(STORAGE_KEY, '1'); } catch {}
+    });
+  }
+</script>

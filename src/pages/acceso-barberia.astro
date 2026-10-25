@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Acceso barbería — Fresh Barbershop" noindex={true}>
+  <main class="auth-page">
+    <div class="auth-card" style="text-align:center;padding:var(--s48);">
+      <div id="st-icon" class="confirm-icon confirm-icon--pending" style="margin:0 auto var(--s16);">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h1 class="auth-title" id="st-title">Activando móvil…</h1>
+      <p id="st-msg" style="color:var(--mid);margin-top:var(--s8);"></p>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { auth } from '../lib/firebase';
+  import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from 'firebase/auth';
+  import { STAFF_EMAIL } from '../lib/staff';
+
+  const title = document.getElementById('st-title')!;
+  const msg = document.getElementById('st-msg')!;
+  const icon = document.getElementById('st-icon')!;
+
+  const key = new URLSearchParams(location.hash.slice(1)).get('k');
+  // Quita la clave de la barra de direcciones y del historial
+  history.replaceState(null, '', location.pathname);
+
+  async function run() {
+    if (!key) {
+      if (auth.currentUser?.email === STAFF_EMAIL) return ok();
+      return fail('Enlace incompleto. Pide el enlace de acceso a Roberto.');
+    }
+    try {
+      await setPersistence(auth, browserLocalPersistence);
+      await signInWithEmailAndPassword(auth, STAFF_EMAIL, key);
+      ok();
+    } catch {
+      fail('Este enlace ya no es válido. Pide uno nuevo a Roberto.');
+    }
+  }
+  function ok() {
+    icon.className = 'confirm-icon confirm-icon--success';
+    icon.innerHTML = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    title.textContent = 'Móvil activado';
+    msg.textContent = 'Listo. Ya puedes escanear los QR de los clientes con la cámara.';
+  }
+  function fail(t: string) {
+    icon.className = 'confirm-icon confirm-icon--error';
+    title.textContent = 'No se pudo activar';
+    msg.textContent = t;
+  }
+  auth.authStateReady().then(run);
+</script>

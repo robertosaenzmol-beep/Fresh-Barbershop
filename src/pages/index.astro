@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RelaunchBanner from '../components/RelaunchBanner.astro';
 import { getCollection } from 'astro:content';
 
 const BOOKSY = 'https://booksy.com/es-es/127272_fresh-barber-shop-madrid_barberia_52925_alcobendas#ba_s=seo';
@@ -24,6 +25,8 @@ const reviews = [
 ---
 
 <Layout preloadImage="/images/hero-dani.webp">
+
+  <RelaunchBanner />
 
   <!-- HERO ================================================= -->
   <section class="hero">
