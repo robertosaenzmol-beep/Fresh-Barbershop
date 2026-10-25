@@ -132,7 +132,7 @@ import Layout from '../../layouts/Layout.astro';
     deleteDoc
   } from 'firebase/firestore';
 
-  const SITE = window.location.origin;
+  const SITE = 'https://freshbarbershop.es'; // dominio fijo: la sesión de la barbería solo vale en este
 
   const loadingEl = document.getElementById('loading')!;
   const profileEl = document.getElementById('profile')!;
