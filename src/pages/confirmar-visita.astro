@@ -163,5 +163,10 @@ import Layout from '../layouts/Layout.astro';
     document.getElementById('error-message')!.textContent = msg;
   }
 
-  init();
+  // Si algo se queda colgado (mala cobertura), no dejar la pantalla cargando para siempre
+  setTimeout(() => {
+    if (!loadingEl.hidden) showError('Conexión lenta. Recarga la página para volver a intentarlo.');
+  }, 12000);
+
+  init().catch((e) => { console.error(e); showError('Error al cargar. Recarga la página.'); });
 </script>

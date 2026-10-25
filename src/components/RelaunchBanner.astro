@@ -1,123 +1,149 @@
 ---
 /* ============================================================
-   RELAUNCH BANNER — Noviembre 2026
-   Barra fina bajo el nav. Se cierra y no vuelve a salir.
-   Para relanzar otra campaña: cambia STORAGE_KEY (p. ej. 'relaunch-2027-01').
-   RELLENAR: eyebrow, title, text, ctaText, ctaHref
+   RELANZAMIENTO NOVIEMBRE — sección tras el hero
+   Ilustración: /public/images/chaval-tarjeta.webp (1136×1408)
+   La tarjeta "CORTE GRATIS" es texto real colocado encima de la
+   tarjeta en blanco del dibujo, y es el enlace al registro.
+   Si cambias la imagen, ajusta --card-* (en % de la imagen).
 ============================================================ */
 const {
-  eyebrow = 'Noviembre 2026',
-  title   = '[TÍTULO DEL RELANZAMIENTO]',
-  text    = '[Frase corta con la novedad]',
-  ctaText = 'Descubrir',
-  ctaHref = '/cuenta/registro/',
+  eyebrow = 'Nuevo · Noviembre',
+  title   = 'Para que siempre estés fresh, bro.',
+  text    = '10 visitas = 1 corte gratis. Apuntarse es gratis.',
+  href    = '/cuenta/registro/',
+  img     = '/images/chaval-tarjeta.webp',
 } = Astro.props;
-// Mientras el título tenga [corchetes] es borrador: solo se ve con ?banner en la URL
-const draft = title.startsWith('[');
 ---
 
-<aside class="rl-banner" id="rl-banner" hidden aria-label="Novedades" data-draft={draft ? "1" : undefined}>
-  <div class="rl-inner">
-    <span class="rl-eyebrow">{eyebrow}</span>
-    <p class="rl-copy">
-      <strong class="rl-title">{title}</strong>
-      <span class="rl-text">{text}</span>
-    </p>
-    <a class="rl-cta" href={ctaHref}>{ctaText} <span aria-hidden="true">→</span></a>
+<section class="rl" aria-labelledby="rl-title">
+  <div class="rl-copy">
+    <p class="rl-eyebrow">{eyebrow}</p>
+    <h2 class="rl-title" id="rl-title">{title}</h2>
+    <p class="rl-text">{text}</p>
   </div>
-  <button class="rl-close" id="rl-close" aria-label="Cerrar aviso">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
-</aside>
+
+  <div class="rl-art">
+    <img src={img} alt="Ilustración de un chico recién cortado enseñando la tarjeta de Fresh Barbershop" width="1136" height="1408" loading="lazy" decoding="async" />
+    <a class="rl-card" href={href} aria-label="Corte gratis: crea tu cuenta y consigue la tarjeta">
+      <span>Corte</span><span>Gratis</span>
+    </a>
+    <span class="rl-hint" aria-hidden="true">
+      Toca la tarjeta
+      <svg viewBox="0 0 60 40" width="44" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M56 6 C40 6 24 14 12 32"/><path d="M10 22 L12 33 L22 29"/></svg>
+    </span>
+  </div>
+</section>
 
 <style>
-  .rl-banner {
-    position: fixed;
-    top: var(--nav-h);
-    left: 0; right: 0;
-    z-index: 99;
-    display: flex;
+  .rl {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
     align-items: center;
-    gap: var(--s16);
-    padding: var(--s12) var(--gutter);
+    gap: var(--s48);
+    padding: var(--s100) var(--gutter);
     background: var(--white);
     color: var(--ink);
     border-bottom: 1px solid var(--hairline);
-    animation: rl-in .5s cubic-bezier(.2,.7,.2,1) both;
-  }
-  .rl-banner[hidden] { display: none; }
-  .rl-inner {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: var(--s20);
-    min-width: 0;
   }
   .rl-eyebrow {
-    flex-shrink: 0;
     font-size: var(--t-caption);
-    letter-spacing: .14em;
+    letter-spacing: .16em;
     text-transform: uppercase;
     color: var(--mid);
-  }
-  .rl-copy {
-    flex: 1;
-    min-width: 0;
-    font-size: var(--t-sm);
-    line-height: 1.4;
+    margin-bottom: var(--s24);
   }
   .rl-title {
     font-family: var(--font-display);
-    font-weight: 700;
-    margin-right: var(--s8);
+    font-weight: 800;
+    font-size: clamp(48px, 7.2vw, 124px);
+    line-height: .92;
+    letter-spacing: -.03em;
   }
-  .rl-text { color: #444; }
-  .rl-cta {
-    flex-shrink: 0;
+  .rl-text {
+    margin-top: var(--s32);
+    font-size: var(--t-sub);
+    color: #555;
+    max-width: 30ch;
+  }
+
+  .rl-art {
+    position: relative;
+    container-type: inline-size;
+    width: 100%;
+    max-width: 520px;
+    justify-self: center;
+    /* posición de la tarjeta en blanco dentro del dibujo */
+    --card-x: 35.2%;
+    --card-y: 52.6%;
+    --card-w: 29.1%;
+    --card-h: 12.9%;
+  }
+  .rl-art img { display: block; width: 100%; height: auto; }
+
+  .rl-card {
+    position: absolute;
+    left: var(--card-x);
+    top: var(--card-y);
+    width: var(--card-w);
+    height: var(--card-h);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 5cqw;
+    line-height: .9;
+    text-transform: uppercase;
+    letter-spacing: -.01em;
+    outline: 2px solid var(--ink);
+    outline-offset: -1px;
+    transform-origin: center;
+    transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s;
+    animation: rl-nudge 4.5s ease-in-out 1.5s infinite;
+  }
+  .rl-card:hover, .rl-card:focus-visible {
+    animation: none;
+    transform: rotate(-3deg) scale(1.12);
+    box-shadow: 0 14px 30px rgba(0,0,0,.18);
+  }
+  .rl-card:active { transform: rotate(-3deg) scale(1.04); }
+
+  .rl-hint {
+    position: absolute;
+    left: 64%;
+    top: 36%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
     font-size: var(--t-sm);
     font-weight: 600;
-    color: var(--white);
-    background: var(--ink);
-    padding: var(--s8) var(--s16);
-    text-decoration: none;
-    transition: background .2s;
+    color: var(--ink);
+    background: var(--white);
+    padding: 6px 10px 2px;
+    border: 1px solid var(--ink);
+    white-space: nowrap;
+    pointer-events: none;
   }
-  .rl-cta:hover { background: var(--black); }
-  .rl-cta span { display: inline-block; transition: transform .2s; }
-  .rl-cta:hover span { transform: translateX(3px); }
-  .rl-close {
-    flex-shrink: 0;
-    display: grid; place-items: center;
-    width: 32px; height: 32px;
-    background: none; border: 0;
-    color: var(--mid);
-    cursor: pointer;
-  }
-  .rl-close:hover { color: var(--ink); }
+  .rl-hint svg { margin-left: -6px; }
 
-  @media (max-width: 680px) {
-    .rl-inner { flex-wrap: wrap; gap: var(--s4) var(--s12); }
-    .rl-copy { flex-basis: 100%; order: 2; }
-    .rl-text { display: block; }
-    .rl-cta { order: 3; padding: var(--s4) var(--s12); }
-    .rl-banner { align-items: flex-start; }
+  @keyframes rl-nudge {
+    0%, 82%, 100% { transform: none; }
+    86% { transform: rotate(-3deg) scale(1.08); }
+    90% { transform: rotate(2deg) scale(1.08); }
+    94% { transform: rotate(0) scale(1); }
   }
-  @keyframes rl-in { from { transform: translateY(-100%); opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .rl-banner { animation: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .rl-card { animation: none; transition: none; }
+  }
+
+  @media (max-width: 860px) {
+    .rl { grid-template-columns: 1fr; gap: var(--s32); padding: var(--s64) var(--gutter) 0; }
+    .rl-art { max-width: 420px; }
+    .rl-hint { left: auto; right: 0; top: 33%; font-size: var(--t-caption); }
+  }
 </style>
-
-<script>
-  const STORAGE_KEY = 'relaunch-2026-11-dismissed';
-  const banner = document.getElementById('rl-banner');
-  const preview = new URLSearchParams(location.search).has('banner');
-  const draft = banner?.dataset.draft === '1';
-  let dismissed = false;
-  try { dismissed = localStorage.getItem(STORAGE_KEY) === '1'; } catch {}
-  if (banner && (preview || (!draft && !dismissed))) {
-    banner.hidden = false;
-    document.getElementById('rl-close')?.addEventListener('click', () => {
-      banner.hidden = true;
-      try { localStorage.setItem(STORAGE_KEY, '1'); } catch {}
-    });
-  }
-</script>
