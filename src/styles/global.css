@@ -1602,6 +1602,36 @@ a { text-decoration: none; color: inherit; }
   text-transform: uppercase;
 }
 
+/* Marquee strip */
+.marquee-strip {
+  overflow: hidden;
+  background: #facc15;
+  padding: 12px 0;
+  white-space: nowrap;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+.marquee-track {
+  display: inline-flex;
+  animation: marquee-scroll 20s linear infinite;
+}
+.marquee-track span {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(14px, 2vw, 20px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #000;
+  padding-right: 0;
+}
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
 /* Stamp grid */
 .stamp-grid {
   display: grid;
@@ -1924,6 +1954,25 @@ a { text-decoration: none; color: inherit; }
 }
 .data-section-legal a:hover {
   color: var(--ink);
+}
+
+.promo-legal-notice {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: var(--s24);
+  padding: var(--s16);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--mid);
+}
+.promo-legal-notice svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  opacity: 0.5;
 }
 
 /* Confirmation page */
