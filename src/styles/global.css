@@ -1648,6 +1648,21 @@ a { text-decoration: none; color: inherit; }
   border-color: var(--loyalty-red);
   color: var(--white);
 }
+.stamp--discount {
+  border-color: #f59e0b;
+  background: rgba(245,158,11,0.15);
+}
+.stamp--discount .stamp-discount-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fbbf24;
+}
+.stamp--discount.stamp--done {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: var(--white);
+}
 
 .loyalty-progress {
   text-align: center;

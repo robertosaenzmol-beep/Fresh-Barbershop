@@ -178,6 +178,9 @@ import Layout from '../../layouts/Layout.astro';
     if (currentStamps === 9) {
       hintEl.textContent = '¡Tu próximo corte es GRATIS!';
       hintEl.classList.add('loyalty-hint--alert');
+    } else if (currentStamps === 4) {
+      hintEl.textContent = '¡Tu próxima visita tiene un 10% de descuento!';
+      hintEl.classList.add('loyalty-hint--alert');
     } else if (currentStamps === 0 && totalVisits > 0) {
       hintEl.textContent = '¡Tarjeta nueva! Sigue acumulando visitas';
     } else {
@@ -387,16 +390,22 @@ import Layout from '../../layouts/Layout.astro';
     for (let i = 1; i <= 10; i++) {
       const stamp = document.createElement('div');
       const isLast = i === 10;
+      const isDiscount = i === 5;
       const isDone = i <= filled;
 
       stamp.className = 'stamp'
         + (isDone ? ' stamp--done' : '')
-        + (isLast ? ' stamp--free' : '');
+        + (isLast ? ' stamp--free' : '')
+        + (isDiscount ? ' stamp--discount' : '');
 
       if (isLast) {
         stamp.innerHTML = isDone
           ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
           : '<span class="stamp-free-label">GRATIS</span>';
+      } else if (isDiscount) {
+        stamp.innerHTML = isDone
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+          : '<span class="stamp-discount-label">-10%</span>';
       } else {
         stamp.innerHTML = isDone
           ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
