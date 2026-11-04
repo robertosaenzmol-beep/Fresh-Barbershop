@@ -1697,6 +1697,46 @@ a { text-decoration: none; color: inherit; }
   color: var(--white);
 }
 
+/* Loyalty card rules */
+.loyalty-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: var(--s16);
+  padding-top: var(--s12);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.loyalty-rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.4;
+}
+.loyalty-rule svg {
+  flex-shrink: 0;
+  stroke: rgba(255,255,255,0.4);
+}
+.loyalty-rule strong {
+  color: rgba(255,255,255,0.8);
+}
+.loyalty-rule--expiry {
+  color: rgba(255,255,255,0.65);
+}
+.loyalty-rule--urgent {
+  color: #fbbf24;
+}
+.loyalty-rule--urgent svg {
+  stroke: #fbbf24;
+}
+.loyalty-rule--expired {
+  color: var(--loyalty-red-light);
+}
+.loyalty-rule--expired svg {
+  stroke: var(--loyalty-red-light);
+}
+
 .loyalty-progress {
   text-align: center;
   margin-top: var(--s16);
